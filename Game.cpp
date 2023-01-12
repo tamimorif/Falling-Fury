@@ -9,15 +9,15 @@ void Game::initVeriables()
     float enemySpawnTimerMax;
     int maxEnemies;
     this->points = 0;
-    this->enemySpawnTimerMax = 1000.f;
+    this->enemySpawnTimerMax = 10.f;
     this->enemySpawnTimer = this->enemySpawnTimerMax;
-    this->maxEnemies = 5;
+    this->maxEnemies = 10;
 }
 
 void Game::initWindow()
 {
-    this->videoMode.height = 600;
-    this->videoMode.width = 800;
+    this->videoMode.height = 1000;
+    this->videoMode.width = 1200;
     this->window = new sf::RenderWindow(this->videoMode, "Game 1", sf::Style::Titlebar | sf::Style::Close);
     this->window->setFramerateLimit(60);
 }
@@ -28,8 +28,8 @@ void Game::initEnemies()
     this->enemy.setSize(sf::Vector2f(100.f, 100.f));
     this->enemy.setScale(sf::Vector2f(0.5f, 0.5f));
     this->enemy.setFillColor(sf::Color::Cyan);
-    this->enemy.setOutlineColor(sf::Color::Green);
-    this->enemy.setOutlineThickness(1.f);
+    // this->enemy.setOutlineColor(sf::Color::Green);
+    // this->enemy.setOutlineThickness(1.f);
 }
 
 // Constructor
@@ -64,7 +64,8 @@ void Game::spawnEnemy()
     */
     this->enemy.setPosition(
         static_cast<float>(rand() % static_cast<int>(this->window->getSize().x) - this->enemy.getSize().x),
-        static_cast<float>(rand() % static_cast<int>(this->window->getSize().y) - this->enemy.getSize().y));
+        // static_cast<float>(rand() % static_cast<int>(this->window->getSize().y) - this->enemy.getSize().y);
+        0.f);
 
     this->enemy.setFillColor(sf::Color::Green);
 
@@ -80,6 +81,7 @@ void Game::updateEnemies()
     when the total amount of enemies is smaller than the maximum.
     Moves the enemies downwords.
     Removes the enemies at the edge of the screen. // TODO
+
     */
 
     // Updating the timer for enemy swapwning
@@ -94,10 +96,33 @@ void Game::updateEnemies()
         else
             this->enemySpawnTimer += 1.f;
     }
-    // Move the enemies
-    for (auto &i : this->enemies)
+    // Move the updating enemies
+    for (int i = 0; i < this->enemies.size(); i++)
     {
-        i.move(0.f, 5.f);
+        bool deleted = false;
+        this->enemies[i].move(0.f, 1.f);
+
+        // Check if clicked upon
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
+            if (this->enemies[i].getGlobalBounds().contains(this->mousePosView))
+            {
+                this->enemies.erase(this->enemies.begin() + i);
+
+                // Gain Points
+                this->points += 10.f;
+            }
+        }
+        // If the enemy is past the bottom of the screen
+        if (this->enemies[i].getPosition().y > this->window->getSize().y)
+        {
+            deleted = true;
+        }
+        // Final Delete
+        if (deleted)
+        {
+            this->enemies.erase(this->enemies.begin() + i);
+        }
     }
 }
 void Game::renderEnemies()
@@ -131,6 +156,7 @@ void Game::updateMousePositions()
     -Mouse Position relative to window (Vector2i);
     */
     this->mousePosWindow = sf::Mouse::getPosition(*this->window);
+    this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
 }
 
 void Game::update()

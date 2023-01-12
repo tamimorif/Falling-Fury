@@ -19,6 +19,7 @@ private:
 
     // Mouse Position
     sf::Vector2i mousePosWindow;
+    sf::Vector2f mousePosView;
 
     // Game Logic
     int points;
