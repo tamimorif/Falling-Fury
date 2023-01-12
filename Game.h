@@ -32,6 +32,7 @@ private:
 
     // Privet Functions
     void initVeriables();
+    //hello
     void initWindow();
     void initEnemies();
 
