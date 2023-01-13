@@ -8,7 +8,7 @@ int main()
     Game game;
 
     // Game Loop
-    while (game.running() && !game.getEndGame())
+    while (game.running() && !game.getEndGame() ghn)
     {
         // update
         game.update();
