@@ -22,10 +22,13 @@ private:
     sf::Vector2f mousePosView;
 
     // Game Logic
-    int points;
+    unsigned points;
+    int health;
     float enemySpawnTimer;
     float enemySpawnTimerMax;
     int maxEnemies;
+    bool mouseHeld;
+    bool endGame;
 
     // Game object
     std::vector<sf::RectangleShape> enemies;
@@ -43,6 +46,7 @@ public:
 
     // accessors
     const bool running() const;
+    const bool getEndGame() const;
 
     // functions
     void spawnEnemy();

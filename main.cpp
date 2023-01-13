@@ -1,16 +1,19 @@
 #include "Game.h"
-#include <cstdlib>
+#include <bits/stdc++.h>
+int main()
+{
+    // Init srand
+    std::srand(static_cast<unsigned>(time(NULL)));
 
-int main() {
-  // Init srand
-  std::srand(static_cast<unsigned>(time(NULL)));
+    // Init Game engine
+    Game game;
 
-  Game game;
-  // Game Loop
-  while (game.running()) {
-    // update
-    game.update();
-    // render
-    game.render();
-  }
+    // Game Loop
+    while (game.running() && !game.getEndGame())
+    {
+        // update
+        game.update();
+        // render
+        game.render();
+    }
 }
