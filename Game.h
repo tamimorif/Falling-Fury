@@ -11,32 +11,37 @@
 
 class Game
 {
+    // Local variable: variableName;
+    // Global variable: mVariableName;
+    // CONSTANT variable: MAX_ENEMIES
+    const int WINDOW_HEIGH = 1500;
+    const int WINDOW_WIDTH = 1000;
+
 private:
     // Ceriables
     // Window
-    sf::RenderWindow *window;
-    sf::Event ev;
-    sf::VideoMode videoMode;
+    sf::VideoMode mVideoMode;
+    sf::RenderWindow *mWindow;
+    sf::Event mEvent;
 
     // Mouse Position
-    sf::Vector2i mousePosWindow;
-    sf::Vector2f mousePosView;
+    sf::Vector2i mMousePosWindow;
+    sf::Vector2f mMousePosView;
 
     // Game Logic
-    unsigned points;
-    int health;
-    float enemySpawnTimer;
-    float enemySpawnTimerMax;
-    int maxEnemies;
-    bool mouseHeld;
-    bool endGame;
+    unsigned int mPoints;
+    int mHealth;
+    float mEnemySpawnTimer;
+    float mEnemySpawnTimerMax;
+    const int MAX_ENEMIES = 10;
+    bool mMouseHeld;
+    bool mEndGame;
 
     // Game object
-    std::vector<sf::RectangleShape> enemies;
-    sf::RectangleShape enemy;
+    std::vector<sf::RectangleShape> mEnemies;
+    sf::RectangleShape mEnemy;
 
     // Privet Functions
-    void initVeriables();
     void initWindow();
     void initEnemies();
 
@@ -58,4 +63,5 @@ public:
     void render();
     void pollEvent();
     void updateMousePositions();
+    void renderCounter();
 };

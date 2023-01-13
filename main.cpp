@@ -2,7 +2,8 @@
 int main()
 {
     // Init srand
-    std::srand(static_cast<unsigned>(time(NULL)));
+    // std::cout << time(NULL) << std::endl;
+    // std::srand(static_cast<unsigned>(time(NULL)));
 
     // Init Game engine
     Game game;
