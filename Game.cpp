@@ -21,7 +21,7 @@ void Game::initVeriables()
 void Game::initWindow()
 {
     this->videoMode.height = 1000;
-    this->videoMode.width = 1200;
+    this->videoMode.width = 1800;
     this->window = new sf::RenderWindow(this->videoMode, "Game 1", sf::Style::Titlebar | sf::Style::Close);
     this->window->setFramerateLimit(60);
 }
@@ -71,10 +71,9 @@ void Game::spawnEnemy()
     -Sets random color.
     -Adds enemy to the vector.
     */
-    this->enemy.setPosition(
-        static_cast<float>(rand() % static_cast<int>(this->window->getSize().x) - this->enemy.getSize().x),
-        // static_cast<float>(rand() % static_cast<int>(this->window->getSize().y) - this->enemy.getSize().y);
-        0.f);
+    this->enemy.setPosition(static_cast<float>(rand() % static_cast<int>(this->window->getSize().x) - this->enemy.getSize().x),
+                            static_cast<float>(rand() % static_cast<int>(this->window->getSize().y) - this->enemy.getSize().y));
+    // (0.f, 0.f);
 
     this->enemy.setFillColor(sf::Color::Green);
 
@@ -125,7 +124,7 @@ void Game::updateEnemies()
         {
             this->mouseHeld = true;
             bool deleted = false;
-            for (size_t i = 0; i < this->enemies.size() && deleted == false; i++)
+            for (size_t i = 0; i < this->enemies.size() && !deleted; i++)
             {
                 if (this->enemies[i].getGlobalBounds().contains(this->mousePosView))
                 {
