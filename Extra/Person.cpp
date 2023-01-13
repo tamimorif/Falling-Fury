@@ -59,6 +59,6 @@ int main()
 // Constructor & Desctructor
 // Initialization list
 // Object life cycle
-// When does the desctructor get called?
+// When does the destructor get called?
 // Extra:
 // What is a pointer?
