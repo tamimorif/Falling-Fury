@@ -21,7 +21,7 @@ void Game::initVeriables()
 void Game::initWindow()
 {
     this->videoMode.height = 1000;
-    this->videoMode.width = 1800;
+    this->videoMode.width = 1500;
     this->window = new sf::RenderWindow(this->videoMode, "Game 1", sf::Style::Titlebar | sf::Style::Close);
     this->window->setFramerateLimit(60);
 }
@@ -71,8 +71,10 @@ void Game::spawnEnemy()
     -Sets random color.
     -Adds enemy to the vector.
     */
-    this->enemy.setPosition(static_cast<float>(rand() % static_cast<int>(this->window->getSize().x) - this->enemy.getSize().x),
-                            static_cast<float>(rand() % static_cast<int>(this->window->getSize().y) - this->enemy.getSize().y));
+    this->enemy.setPosition(
+        // static_cast<float>(rand() % static_cast<int>(this->window->getSize().x) - this->enemy.getSize().x),
+        0.f,
+        static_cast<float>(rand() % static_cast<int>(this->window->getSize().y) - this->enemy.getSize().y));
     // (0.f, 0.f);
 
     this->enemy.setFillColor(sf::Color::Green);
@@ -120,7 +122,7 @@ void Game::updateEnemies()
     // Check if clicked upon
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
-        if (this->mouseHeld = false)
+        if (!this->mouseHeld)
         {
             this->mouseHeld = true;
             bool deleted = false;
@@ -133,8 +135,10 @@ void Game::updateEnemies()
                     this->enemies.erase(this->enemies.begin() + i);
 
                     // Gain Points
-                    this->points++;
-                    std::cout << "Points " << this->points << '\n';
+                    // points++;
+                    // std::cout << "Points " << points << '\n';
+                    health++;
+                    std::cout << "Health " << health << '\n';
                 }
             }
         }
@@ -182,14 +186,14 @@ void Game::update()
 {
     this->pollEvent();
 
-    if (this->endGame == false)
+    if (!this->endGame)
     {
         this->updateMousePositions();
         this->updateEnemies();
     }
 
     // End game condition
-    if (this->health <= 0)
+    if (!this->health)
     {
         this->endGame = true;
     }
