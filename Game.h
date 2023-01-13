@@ -5,6 +5,7 @@
 #include <SFML/Network.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <ctime>
 

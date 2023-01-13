@@ -1,5 +1,4 @@
 #include "Game.h"
-#include <bits/stdc++.h>
 int main()
 {
     // Init srand
