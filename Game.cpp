@@ -4,7 +4,6 @@ void Game::initVeriables()
     window = nullptr;
 
     // Game logic
-
     int points;
     float enemySpawnTimer;
     float enemySpawnTimerMax;
@@ -71,11 +70,7 @@ void Game::spawnEnemy()
     -Sets random color.
     -Adds enemy to the vector.
     */
-    this->enemy.setPosition(
-        // static_cast<float>(rand() % static_cast<int>(this->window->getSize().x) - this->enemy.getSize().x),
-        0.f,
-        static_cast<float>(rand() % static_cast<int>(this->window->getSize().y) - this->enemy.getSize().y));
-    // (0.f, 0.f);
+    this->enemy.setPosition(static_cast<float>(rand() % static_cast<int>(this->window->getSize().x) - this->enemy.getSize().x), 0.f);
 
     this->enemy.setFillColor(sf::Color::Green);
 
@@ -91,7 +86,6 @@ void Game::updateEnemies()
     When the total amount of enemies is smaller than the maximum.
     Moves the enemies downwords.
     Removes the enemies at the edge of the screen. // TODO
-
     */
 
     // Updating the timer for enemy swapwning
@@ -110,7 +104,7 @@ void Game::updateEnemies()
     for (int i = 0; i < this->enemies.size(); i++)
     {
         bool deleted = false;
-        this->enemies[i].move(0.f, 1.f);
+        this->enemies[i].move(0.f, 2.f);
 
         if (this->enemies[i].getPosition().y > this->window->getSize().y)
         {
@@ -136,9 +130,9 @@ void Game::updateEnemies()
 
                     // Gain Points
                     // points++;
-                    // std::cout << "Points " << points << '\n';
-                    health++;
                     std::cout << "Health " << health << '\n';
+                    health++;
+                    // std::cout << "Points " << points << '\n';
                 }
             }
         }
