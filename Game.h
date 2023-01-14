@@ -14,8 +14,8 @@ class Game
     // Local variable: variableName;
     // Global variable: mVariableName;
     // CONSTANT variable: MAX_ENEMIES
-    const int WINDOW_HEIGH = 1500;
-    const int WINDOW_WIDTH = 1000;
+    const int WINDOW_HEIGH = 1000;
+    const int WINDOW_WIDTH = 1500;
 
 private:
     // Ceriables
@@ -67,11 +67,15 @@ public:
 
     void updateEnemies();
     void renderEnemies();
+
     void update();
     void render();
+
     void pollEvent();
+
     void updateMousePositions();
     void renderCounter();
+
     void updateText();
     void renderText();
 };

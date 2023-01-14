@@ -2,9 +2,11 @@
 
 void Game::initFonts()
 {
-    if (mFont.loadFromFile("Fonts/Dosis-Light.ttf"))
+    // Fonts/Dosis-Light.ttf
+    if (mFont.loadFromFile("./Fonts2/BebasNeue-Regular.ttf"))
     {
         std::cout << "ERROR::GAME::INITFONTS::Failed to load fonts!\n";
+        throw;
     }
 }
 
@@ -21,8 +23,22 @@ void Game::initEnemies()
 void Game::initText()
 {
     mUiText.setFont(mFont);
-    mUiText.setCharacterSize(12);
-    mUiText.setColor(sf::Color::White); /*You should write setfillcolor but is does not show. Check it later.*/
+
+    // set the string to display
+    mUiText.setString("Hello world");
+
+    // set the character size
+    mUiText.setCharacterSize(200);
+
+    // set the color
+    mUiText.setFillColor(sf::Color::Red);
+
+    mUiText.setPosition(100.f, 100.f);
+    mUiText.setScale(10.f, 10.f);
+    mUiText.setOutlineThickness(5.f);
+    mUiText.setOutlineColor(sf::Color::Blue);
+
+    mUiText.setOrigin(10.f, 10.f);
 }
 
 // Constructor
@@ -37,6 +53,7 @@ Game::Game() : mVideoMode(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGH)),
 {
     mWindow->setFramerateLimit(60);
     initEnemies();
+    initText();
 }
 
 // Destructor
@@ -103,9 +120,9 @@ void Game::updateEnemies()
 
         if (mEnemies[i].getPosition().y > mWindow->getSize().y)
         {
-            mEnemies.erase(mEnemies.begin() + i);
             mHealth--;
             std::cout << "Health " << mHealth << '\n';
+            mEnemies.erase(mEnemies.begin() + i);
         }
     }
     // Check if clicked upon
@@ -137,6 +154,7 @@ void Game::updateEnemies()
         mMouseHeld = false;
     }
 }
+
 void Game::renderEnemies()
 {
     // Rendering all the mEnemies
@@ -157,6 +175,12 @@ void Game::updateText()
 
 void Game::renderText()
 {
+    mUiText.setPosition(300, 300);
+    mUiText.setString("Hello World");
+    std::cout << mUiText.getPosition().x << ' ' << mUiText.getPosition().y << std::endl;
+    std::string a = mUiText.getString();
+    std::cout << a << std::endl;
+    mWindow->draw(mUiText);
 }
 
 void Game::pollEvent()
@@ -211,7 +235,8 @@ void Game::render()
 {
     mWindow->clear();
     // draw game object
-    renderEnemies();
+
+    // renderEnemies();
 
     renderText();
 
