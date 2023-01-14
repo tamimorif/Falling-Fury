@@ -1,5 +1,13 @@
 #include "Game.h"
 
+void Game::initFonts()
+{
+    if (mFont.loadFromFile("Fonts/Dosis-Light.ttf"))
+    {
+        std::cout << "ERROR::GAME::INITFONTS::Failed to load fonts!\n";
+    }
+}
+
 void Game::initEnemies()
 {
     mEnemy.setPosition(10.f, 10.f);
@@ -8,6 +16,13 @@ void Game::initEnemies()
     mEnemy.setFillColor(sf::Color::Cyan);
     // mEnemy.setOutlineColor(sf::Color::Green);
     // mEnemy.setOutlineThickness(1.f);
+}
+
+void Game::initText()
+{
+    mUiText.setFont(mFont);
+    mUiText.setCharacterSize(12);
+    mUiText.setColor(sf::Color::White); /*You should write setfillcolor but is does not show. Check it later.*/
 }
 
 // Constructor
@@ -84,7 +99,7 @@ void Game::updateEnemies()
     for (int i = 0; i < mEnemies.size(); i++)
     {
         bool deleted = false;
-        mEnemies[i].move(0.f, 2.f);
+        mEnemies[i].move(0.f, 3.f);
 
         if (mEnemies[i].getPosition().y > mWindow->getSize().y)
         {
@@ -131,8 +146,17 @@ void Game::renderEnemies()
     }
 }
 
-void Game::renderCounter(){
+void Game::renderCounter()
+{
     // draw RectangleShape for counter in window
+}
+
+void Game::updateText()
+{
+}
+
+void Game::renderText()
+{
 }
 
 void Game::pollEvent()
@@ -188,5 +212,8 @@ void Game::render()
     mWindow->clear();
     // draw game object
     renderEnemies();
+
+    renderText();
+
     mWindow->display();
 }

@@ -28,12 +28,18 @@ private:
     sf::Vector2i mMousePosWindow;
     sf::Vector2f mMousePosView;
 
+    // Resources
+    sf::Font mFont;
+
+    // Text
+    sf::Text mUiText;
+
     // Game Logic
     unsigned int mPoints;
     int mHealth;
     float mEnemySpawnTimer;
     float mEnemySpawnTimerMax;
-    const int MAX_ENEMIES = 10;
+    const int MAX_ENEMIES = 30;
     bool mMouseHeld;
     bool mEndGame;
 
@@ -43,7 +49,9 @@ private:
 
     // Privet Functions
     void initWindow();
+    void initFonts();
     void initEnemies();
+    void initText();
 
 public:
     // Constructors
@@ -64,4 +72,6 @@ public:
     void pollEvent();
     void updateMousePositions();
     void renderCounter();
+    void updateText();
+    void renderText();
 };
