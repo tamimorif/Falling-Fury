@@ -5,6 +5,7 @@
 #include <SFML/Network.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
+#include <algorithm>
 #include <sstream>
 #include <vector>
 #include <ctime>
@@ -72,7 +73,7 @@ public:
     void updateText();
 
     void renderCounter();
-    void renderText(sf::RenderTarget &target);
-    void renderEnemies(sf::RenderTarget &target);
+    void renderText();
+    void renderEnemies();
     void render();
 };

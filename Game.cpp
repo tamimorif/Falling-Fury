@@ -10,21 +10,19 @@ void Game::initEnemies()
 }
 void Game::initFonts()
 {
-    // Fonts/Dosis-Light.ttf
-    if (mFont.loadFromFile("/Fonts/BebasNeue-Regular.otf"))
+    if (!mFont.loadFromFile("../Fonts/BebasNeue-Regular.otf"))
     {
         std::cout << "ERROR::GAME::INITFONTS::Failed to load fonts!\n";
+        throw std::runtime_error("Cannot load font");
     }
 }
 
 void Game::initText()
 {
     mUiText.setFont(mFont);
-    mUiText.setCharacterSize(58);
-    // mUiText.setStyle();
-    // mUiText.setFillColor(sf::Color::Red);
+    mUiText.setCharacterSize(24);
     mUiText.setColor(sf::Color::Red);
-    mUiText.setPosition(500.f, 30.f);
+    mUiText.setPosition(435.f, 30.f);
     mUiText.setString("NONE");
 }
 
@@ -71,7 +69,14 @@ void Game::spawnEnemy()
     -Sets random color.
     -Adds mEnemy to the vector.
     */
-    mEnemy.setPosition(static_cast<float>(rand() % static_cast<int>(mWindow->getSize().x) - mEnemy.getSize().x), 0.f);
+    float x;
+    float y = 0.f;
+    if ((static_cast<float>(rand() % static_cast<int>(mWindow->getSize().x))) >= 10.f)
+        x = (static_cast<float>(rand() % static_cast<int>(mWindow->getSize().x)));
+    else
+        x = 10.f;
+
+    mEnemy.setPosition(x, y);
     mEnemy.setFillColor(sf::Color::Green);
 
     // Spawn the mEnemy
@@ -109,7 +114,7 @@ void Game::updateEnemies()
         if (mEnemies[i].getPosition().y > mWindow->getSize().y)
         {
             mHealth--;
-            std::cout << "Health " << mHealth << '\n';
+            // std::cout << "Health " << mHealth << '\n';
             mEnemies.erase(mEnemies.begin() + i);
         }
     }
@@ -130,7 +135,7 @@ void Game::updateEnemies()
 
                     // Gain Points
                     // points++;
-                    std::cout << "Health " << mHealth << '\n';
+                    // std::cout << "Health " << mHealth << '\n';
                     mHealth++;
                     // std::cout << "Points " << points << '\n';
                 }
@@ -143,17 +148,17 @@ void Game::updateEnemies()
     }
 }
 
-void Game::renderEnemies(sf::RenderTarget &target)
+void Game::renderEnemies()
 {
     // Rendering all the mEnemies
     for (auto &i : mEnemies)
     {
-        target.draw(i);
+        mWindow->draw(i);
     }
 }
-void Game::renderText(sf::RenderTarget &target)
+void Game::renderText()
 {
-    target.draw(mUiText);
+    mWindow->draw(mUiText);
 }
 
 void Game::renderCounter()
@@ -222,9 +227,9 @@ void Game::render()
     mWindow->clear();
     // draw game object
 
-    renderEnemies(*mWindow);
+    renderEnemies();
 
-    renderText(*mWindow);
+    renderText();
 
     mWindow->display();
 }
