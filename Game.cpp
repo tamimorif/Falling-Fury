@@ -1,15 +1,4 @@
 #include "Game.h"
-
-void Game::initFonts()
-{
-    // Fonts/Dosis-Light.ttf
-    if (mFont.loadFromFile("./Fonts2/BebasNeue-Regular.ttf"))
-    {
-        std::cout << "ERROR::GAME::INITFONTS::Failed to load fonts!\n";
-        throw;
-    }
-}
-
 void Game::initEnemies()
 {
     mEnemy.setPosition(10.f, 10.f);
@@ -19,26 +8,24 @@ void Game::initEnemies()
     // mEnemy.setOutlineColor(sf::Color::Green);
     // mEnemy.setOutlineThickness(1.f);
 }
+void Game::initFonts()
+{
+    // Fonts/Dosis-Light.ttf
+    if (mFont.loadFromFile("/Fonts/BebasNeue-Regular.otf"))
+    {
+        std::cout << "ERROR::GAME::INITFONTS::Failed to load fonts!\n";
+    }
+}
 
 void Game::initText()
 {
     mUiText.setFont(mFont);
-
-    // set the string to display
-    mUiText.setString("Hello world");
-
-    // set the character size
-    mUiText.setCharacterSize(200);
-
-    // set the color
-    mUiText.setFillColor(sf::Color::Red);
-
-    mUiText.setPosition(100.f, 100.f);
-    mUiText.setScale(10.f, 10.f);
-    mUiText.setOutlineThickness(5.f);
-    mUiText.setOutlineColor(sf::Color::Blue);
-
-    mUiText.setOrigin(10.f, 10.f);
+    mUiText.setCharacterSize(58);
+    // mUiText.setStyle();
+    // mUiText.setFillColor(sf::Color::Red);
+    mUiText.setColor(sf::Color::Red);
+    mUiText.setPosition(500.f, 30.f);
+    mUiText.setString("NONE");
 }
 
 // Constructor
@@ -52,8 +39,9 @@ Game::Game() : mVideoMode(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGH)),
                mMouseHeld(false)
 {
     mWindow->setFramerateLimit(60);
-    initEnemies();
+    initFonts();
     initText();
+    initEnemies();
 }
 
 // Destructor
@@ -132,7 +120,7 @@ void Game::updateEnemies()
         {
             mMouseHeld = true;
             bool deleted = false;
-            for (size_t i = 0; i < mEnemies.size() && !deleted; i++)
+            for (auto i = 0; i < mEnemies.size() && !deleted; i++)
             {
                 if (mEnemies[i].getGlobalBounds().contains(mMousePosView))
                 {
@@ -155,32 +143,22 @@ void Game::updateEnemies()
     }
 }
 
-void Game::renderEnemies()
+void Game::renderEnemies(sf::RenderTarget &target)
 {
     // Rendering all the mEnemies
     for (auto &i : mEnemies)
     {
-        mWindow->draw(i);
+        target.draw(i);
     }
+}
+void Game::renderText(sf::RenderTarget &target)
+{
+    target.draw(mUiText);
 }
 
 void Game::renderCounter()
 {
     // draw RectangleShape for counter in window
-}
-
-void Game::updateText()
-{
-}
-
-void Game::renderText()
-{
-    mUiText.setPosition(300, 300);
-    mUiText.setString("Hello World");
-    std::cout << mUiText.getPosition().x << ' ' << mUiText.getPosition().y << std::endl;
-    std::string a = mUiText.getString();
-    std::cout << a << std::endl;
-    mWindow->draw(mUiText);
 }
 
 void Game::pollEvent()
@@ -208,18 +186,26 @@ void Game::updateMousePositions()
     mMousePosView = mWindow->mapPixelToCoords(mMousePosWindow);
 }
 
+void Game::updateText()
+{
+    std::stringstream ss;
+    ss << "health = " << mHealth;
+    mUiText.setString(ss.str());
+}
+
 void Game::update()
 {
     pollEvent();
 
-    if (!mEndGame)
+    if (mEndGame == false)
     {
         updateMousePositions();
         updateEnemies();
+        updateText();
     }
 
     // End game condition
-    if (!mHealth)
+    if (mHealth <= 0)
     {
         mEndGame = true;
     }
@@ -236,9 +222,9 @@ void Game::render()
     mWindow->clear();
     // draw game object
 
-    // renderEnemies();
+    renderEnemies(*mWindow);
 
-    renderText();
+    renderText(*mWindow);
 
     mWindow->display();
 }

@@ -5,7 +5,7 @@
 #include <SFML/Network.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
-#include <algorithm>
+#include <sstream>
 #include <vector>
 #include <ctime>
 
@@ -15,7 +15,7 @@ class Game
     // Global variable: mVariableName;
     // CONSTANT variable: MAX_ENEMIES
     const int WINDOW_HEIGH = 1000;
-    const int WINDOW_WIDTH = 1500;
+    const int WINDOW_WIDTH = 1000;
 
 private:
     // Ceriables
@@ -50,8 +50,8 @@ private:
     // Privet Functions
     void initWindow();
     void initFonts();
-    void initEnemies();
     void initText();
+    void initEnemies();
 
 public:
     // Constructors
@@ -65,17 +65,14 @@ public:
     // functions
     void spawnEnemy();
 
-    void updateEnemies();
-    void renderEnemies();
-
-    void update();
-    void render();
-
     void pollEvent();
-
+    void update();
+    void updateEnemies();
     void updateMousePositions();
-    void renderCounter();
-
     void updateText();
-    void renderText();
+
+    void renderCounter();
+    void renderText(sf::RenderTarget &target);
+    void renderEnemies(sf::RenderTarget &target);
+    void render();
 };
