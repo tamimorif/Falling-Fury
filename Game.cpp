@@ -10,7 +10,7 @@ void Game::initEnemies()
 }
 void Game::initFonts()
 {
-    if (!mFont.loadFromFile("../Fonts/BebasNeue-Regular.otf"))
+    if (!mFont.loadFromFile("../Fonts/1/BebasNeue-Regular.ttf"))
     {
         std::cout << "ERROR::GAME::INITFONTS::Failed to load fonts!\n";
         throw std::runtime_error("Cannot load font");
@@ -20,9 +20,9 @@ void Game::initFonts()
 void Game::initText()
 {
     mUiText.setFont(mFont);
-    mUiText.setCharacterSize(24);
+    mUiText.setCharacterSize(50);
     mUiText.setColor(sf::Color::Red);
-    mUiText.setPosition(435.f, 30.f);
+    mUiText.setPosition(400.f, 30.f);
     mUiText.setString("NONE");
 }
 
