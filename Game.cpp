@@ -22,7 +22,7 @@ void Game::initText()
     mUiText.setFont(mFont);
     mUiText.setCharacterSize(50);
     mUiText.setColor(sf::Color::Red);
-    mUiText.setPosition(400.f, 30.f);
+    mUiText.setPosition(300.f, 30.f);
     mUiText.setString("NONE");
 }
 
@@ -69,13 +69,9 @@ void Game::spawnEnemy()
     -Sets random color.
     -Adds mEnemy to the vector.
     */
-    float x;
-    float y = 0.f;
-    if ((static_cast<float>(rand() % static_cast<int>(mWindow->getSize().x))) >= 10.f)
-        x = (static_cast<float>(rand() % static_cast<int>(mWindow->getSize().x)));
-    else
-        x = 10.f;
-
+    float x, y;
+    x = rand() % 900;
+    y = 100.f;
     mEnemy.setPosition(x, y);
     mEnemy.setFillColor(sf::Color::Green);
 
@@ -84,7 +80,6 @@ void Game::spawnEnemy()
 }
 void Game::updateEnemies()
 {
-
     /*
     @return void
     Updates the mEnemy swapn timer and spawn mEnemies
@@ -114,7 +109,6 @@ void Game::updateEnemies()
         if (mEnemies[i].getPosition().y > mWindow->getSize().y)
         {
             mHealth--;
-            // std::cout << "Health " << mHealth << '\n';
             mEnemies.erase(mEnemies.begin() + i);
         }
     }
@@ -134,10 +128,8 @@ void Game::updateEnemies()
                     mEnemies.erase(mEnemies.begin() + i);
 
                     // Gain Points
-                    // points++;
-                    // std::cout << "Health " << mHealth << '\n';
                     mHealth++;
-                    // std::cout << "Points " << points << '\n';
+                    mPoints++;
                 }
             }
         }
@@ -194,7 +186,8 @@ void Game::updateMousePositions()
 void Game::updateText()
 {
     std::stringstream ss;
-    ss << "health = " << mHealth;
+    ss << "Health = " << mHealth << "     "
+       << "Points = " << mPoints;
     mUiText.setString(ss.str());
 }
 
@@ -214,18 +207,10 @@ void Game::update()
     {
         mEndGame = true;
     }
-    //  Update mouse position
-
-    // Relative to Screen
-    // std::cout << "Mouse pos: " << sf::Mouse::getPosition().x << ' ' << sf::Mouse::getPosition().y << '\n';
-
-    // Relative to the Window
-    // std::cout << "Mouse pos: " << sf::Mouse::getPosition(*window).x << ' ' << sf::Mouse::getPosition(*window).y << '\n';
 }
 void Game::render()
 {
     mWindow->clear();
-    // draw game object
 
     renderEnemies();
 
