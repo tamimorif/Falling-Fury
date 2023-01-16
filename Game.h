@@ -43,6 +43,8 @@ private:
     const int MAX_ENEMIES = 30;
     bool mMouseHeld;
     bool mEndGame;
+    unsigned int mGravity = 4;
+    unsigned int mDistance=0;
 
     // Game object
     std::vector<sf::RectangleShape> mEnemies;

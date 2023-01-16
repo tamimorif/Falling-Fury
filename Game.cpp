@@ -4,9 +4,7 @@ void Game::initEnemies()
     mEnemy.setPosition(10.f, 10.f);
     mEnemy.setSize(sf::Vector2f(100.f, 100.f));
     mEnemy.setScale(sf::Vector2f(0.5f, 0.5f));
-    mEnemy.setFillColor(sf::Color::Cyan);
-    // mEnemy.setOutlineColor(sf::Color::Green);
-    // mEnemy.setOutlineThickness(1.f);
+    mEnemy.setFillColor(sf::Color::Green);
 }
 void Game::initFonts()
 {
@@ -72,11 +70,15 @@ void Game::spawnEnemy()
     float x, y;
     x = rand() % 900;
     y = 100.f;
-    mEnemy.setPosition(x, y);
-    mEnemy.setFillColor(sf::Color::Green);
-
-    // Spawn the mEnemy
-    mEnemies.push_back(mEnemy);
+    mDistance += mGravity;
+    if (mDistance == 8)
+    {
+        mEnemy.setPosition(x, y);
+        mDistance = 0;
+        mEnemy.setFillColor(sf::Color::Green);
+        // Spawn the mEnemy
+        mEnemies.push_back(mEnemy);
+    }
 }
 void Game::updateEnemies()
 {
@@ -104,7 +106,8 @@ void Game::updateEnemies()
     for (int i = 0; i < mEnemies.size(); i++)
     {
         bool deleted = false;
-        mEnemies[i].move(0.f, 3.f);
+        mGravity = 4.f;
+        mEnemies[i].move(0.f, mGravity);
 
         if (mEnemies[i].getPosition().y > mWindow->getSize().y)
         {
