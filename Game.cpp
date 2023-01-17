@@ -28,7 +28,7 @@ void Game::initMaxPoint()
 {
     mMaxpointText.setFont(mFont);
     mMaxpointText.setCharacterSize(50);
-    mMaxpointText.setColor(sf::Color::Red);
+    mMaxpointText.setColor(sf::Color::White);
     mMaxpointText.setPosition(400.f, 30.f);
     mMaxpointText.setString("NONE");
 }
@@ -133,7 +133,7 @@ void Game::updateEnemies()
         {
             mMouseHeld = true;
             bool deleted = false;
-            for (auto i = 0; i < mEnemies.size() && !deleted; i++)
+            for (int i = 0; i < mEnemies.size() && !deleted; i++)
             {
                 if (mEnemies[i].getGlobalBounds().contains(mMousePosView))
                 {
@@ -161,6 +161,10 @@ void Game::renderEnemies()
     {
         mWindow->draw(i);
     }
+    // for (int i = 0; i < mEnemies.size(); i++)
+    // {
+    //     mWindow->draw(mEnemies[i]);
+    // }
 }
 void Game::renderText()
 {
