@@ -19,15 +19,25 @@ void Game::initText()
 {
     mUiText.setFont(mFont);
     mUiText.setCharacterSize(50);
-    mUiText.setColor(sf::Color::Red);
+    mUiText.setColor(sf::Color::Cyan);
     mUiText.setPosition(300.f, 30.f);
     mUiText.setString("NONE");
+}
+
+void Game::initMaxPoint()
+{
+    mMaxpointText.setFont(mFont);
+    mMaxpointText.setCharacterSize(50);
+    mMaxpointText.setColor(sf::Color::Red);
+    mMaxpointText.setPosition(400.f, 30.f);
+    mMaxpointText.setString("NONE");
 }
 
 // Constructor
 Game::Game() : mVideoMode(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGH)),
                mWindow(new sf::RenderWindow(mVideoMode, "Game 1", sf::Style::Titlebar | sf::Style::Close)),
                mPoints(0),
+               mMaxPoint(0),
                mHealth(10),
                mEndGame(false),
                mEnemySpawnTimerMax(10.f),
@@ -37,6 +47,7 @@ Game::Game() : mVideoMode(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGH)),
     mWindow->setFramerateLimit(60);
     initFonts();
     initText();
+    initMaxPoint();
     initEnemies();
 }
 
@@ -155,6 +166,10 @@ void Game::renderText()
 {
     mWindow->draw(mUiText);
 }
+void Game::renderMaxPoint()
+{
+    mWindow->draw(mMaxpointText);
+}
 
 void Game::renderCounter()
 {
@@ -186,6 +201,14 @@ void Game::updateMousePositions()
     mMousePosView = mWindow->mapPixelToCoords(mMousePosWindow);
 }
 
+void Game::updateMaxPoint()
+{
+    mMaxPoint = mPoints;
+    std::stringstream mm;
+    mm << "Max Point = " << mMaxPoint;
+    mMaxpointText.setString(mm.str());
+}
+
 void Game::updateText()
 {
     std::stringstream ss;
@@ -208,7 +231,9 @@ void Game::update()
     // End game condition
     if (mHealth <= 0)
     {
-        mEndGame = true;
+        updateMaxPoint();
+        mWindow->clear();
+        // mEndGame = true;
     }
 }
 void Game::render()
@@ -218,6 +243,9 @@ void Game::render()
     renderEnemies();
 
     renderText();
+
+    if (mHealth <= 0)
+        mWindow->clear(), renderMaxPoint();
 
     mWindow->display();
 }

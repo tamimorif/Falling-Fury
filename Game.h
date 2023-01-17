@@ -34,8 +34,10 @@ private:
 
     // Text
     sf::Text mUiText;
+    sf::Text mMaxpointText;
 
     // Game Logic
+    unsigned mMaxPoint;
     unsigned int mPoints;
     int mHealth;
     float mEnemySpawnTimer;
@@ -44,7 +46,7 @@ private:
     bool mMouseHeld;
     bool mEndGame;
     unsigned int mGravity = 4;
-    unsigned int mDistance=0;
+    unsigned int mDistance = 0;
 
     // Game object
     std::vector<sf::RectangleShape> mEnemies;
@@ -53,6 +55,7 @@ private:
     // Privet Functions
     void initWindow();
     void initFonts();
+    void initMaxPoint();
     void initText();
     void initEnemies();
 
@@ -71,9 +74,11 @@ public:
     void pollEvent();
     void update();
     void updateEnemies();
+    void updateMaxPoint();
     void updateMousePositions();
     void updateText();
 
+    void renderMaxPoint();
     void renderCounter();
     void renderText();
     void renderEnemies();
