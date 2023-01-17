@@ -229,7 +229,7 @@ void Game::update()
     }
 
     // End game condition
-    if (mHealth <= 0)
+    if (!mHealth)
     {
         updateMaxPoint();
         mWindow->clear();
