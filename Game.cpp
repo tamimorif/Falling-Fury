@@ -29,8 +29,9 @@ void Game::initMaxPoint()
     mMaxpointText.setFont(mFont);
     mMaxpointText.setCharacterSize(50);
     mMaxpointText.setColor(sf::Color::White);
-    mMaxpointText.setPosition(400.f, 30.f);
-    mMaxpointText.setString("NONE");
+    mMaxpointText.setPosition(-200.f, (mWindow->getSize().y / 2) - 50.f);
+    // mMaxpointText.setPosition(400.f, 30.f);`
+    // mMaxpointText.setString("NONE");
 }
 
 // Constructor
@@ -172,6 +173,9 @@ void Game::renderText()
 }
 void Game::renderMaxPoint()
 {
+    mMaxpointText.move(5.f, 0.f);
+    if (mMaxpointText.getPosition().x > mWindow->getSize().x)
+        mMaxpointText.setPosition(-200.f, mMaxpointText.getPosition().y);
     mWindow->draw(mMaxpointText);
 }
 
