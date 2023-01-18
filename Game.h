@@ -9,6 +9,7 @@
 #include <sstream>
 #include <vector>
 #include <ctime>
+#include <cmath>
 
 class Game
 {
@@ -38,15 +39,19 @@ private:
 
     // Game Logic
     unsigned mMaxPoint;
-    unsigned int mPoints;
+    unsigned  mPoints;
     int mHealth;
     float mEnemySpawnTimer;
     float mEnemySpawnTimerMax;
     const int MAX_ENEMIES = 30;
     bool mMouseHeld;
     bool mEndGame;
-    unsigned int mGravity = 4;
-    unsigned int mDistance = 0;
+    float mGravity = 100.f;
+    unsigned  mDistance = 0;
+
+    bool mRed2 = 1, mGreen2 = 1, mBlue2 = 1;
+    int mRed = 0, mGreen = 0, mBlue = 0;
+    int mSpeed = 50;
 
     // Game object
     std::vector<sf::RectangleShape> mEnemies;
@@ -70,6 +75,8 @@ public:
 
     // functions
     void spawnEnemy();
+
+    void nextColor();
 
     void pollEvent();
     void update();

@@ -83,7 +83,7 @@ void Game::spawnEnemy()
     x = rand() % 900;
     y = 100.f;
     mDistance += mGravity;
-    if (mDistance == 8)
+    if (mDistance >= 8)
     {
         mEnemy.setPosition(x, y);
         mDistance = 0;
@@ -118,7 +118,6 @@ void Game::updateEnemies()
     for (int i = 0; i < mEnemies.size(); i++)
     {
         bool deleted = false;
-        mGravity = 4.f;
         mEnemies[i].move(0.f, mGravity);
 
         if (mEnemies[i].getPosition().y > mWindow->getSize().y)
@@ -158,24 +157,45 @@ void Game::updateEnemies()
 void Game::renderEnemies()
 {
     // Rendering all the mEnemies
-    for (auto &i : mEnemies)
-    {
-        mWindow->draw(i);
-    }
-    // for (int i = 0; i < mEnemies.size(); i++)
+    // for (auto &i : mEnemies)
     // {
-    //     mWindow->draw(mEnemies[i]);
+    //     mWindow->draw(i);
     // }
+    for (int i = 0; i < mEnemies.size(); i++)
+    {
+        mWindow->draw(mEnemies[i]);
+    }
 }
 void Game::renderText()
 {
     mWindow->draw(mUiText);
+}
+void Game::nextColor()
+{
+    mBlue += (mBlue2 ? mSpeed : -mSpeed);
+    if (mBlue >= 250 || mBlue <= 0)
+    {
+        mBlue2 = !mBlue2;
+        mGreen += (mGreen2 ? mSpeed : -mSpeed);
+    }
+    if (mGreen >= 250 || mGreen <= 0)
+    {
+        mGreen2 = !mGreen2;
+        mRed += (mRed2 ? mSpeed : -mSpeed);
+    }
+    if (mRed >= 250 || mRed <= 0)
+    {
+        mRed2 = !mRed2;
+    }
 }
 void Game::renderMaxPoint()
 {
     mMaxpointText.move(5.f, 0.f);
     if (mMaxpointText.getPosition().x > mWindow->getSize().x)
         mMaxpointText.setPosition(-200.f, mMaxpointText.getPosition().y);
+    nextColor();
+    mMaxpointText.setColor(sf::Color(mRed, mGreen, mBlue, 255));
+
     mWindow->draw(mMaxpointText);
 }
 
