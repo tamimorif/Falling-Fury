@@ -1,4 +1,28 @@
 #include "Game.h"
+// Constructor
+Game::Game() : mVideoMode(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGH)),
+               mWindow(new sf::RenderWindow(mVideoMode, "Game 1", sf::Style::Titlebar | sf::Style::Close)),
+               mPoints(0),
+               mMaxPoint(std::stoi(getData(1))),
+               mHealth(10),
+               mEndGame(false),
+               mEnemySpawnTimerMax(10.f),
+               mEnemySpawnTimer(10.f),
+               mMouseHeld(false)
+{
+    mWindow->setFramerateLimit(60);
+    initFonts();
+    initText();
+    initMaxPoint();
+    initEnemies();
+}
+
+// Destructor
+Game::~Game()
+{
+    delete mWindow;
+}
+
 void Game::initEnemies()
 {
     mEnemy.setPosition(10.f, 10.f);
@@ -32,30 +56,6 @@ void Game::initMaxPoint()
     mMaxpointText.setPosition(-200.f, (mWindow->getSize().y / 2) - 50.f);
     // mMaxpointText.setPosition(400.f, 30.f);`
     // mMaxpointText.setString("NONE");
-}
-
-// Constructor
-Game::Game() : mVideoMode(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGH)),
-               mWindow(new sf::RenderWindow(mVideoMode, "Game 1", sf::Style::Titlebar | sf::Style::Close)),
-               mPoints(0),
-               mMaxPoint(0),
-               mHealth(10),
-               mEndGame(false),
-               mEnemySpawnTimerMax(10.f),
-               mEnemySpawnTimer(10.f),
-               mMouseHeld(false)
-{
-    mWindow->setFramerateLimit(60);
-    initFonts();
-    initText();
-    initMaxPoint();
-    initEnemies();
-}
-
-// Destructor
-Game::~Game()
-{
-    delete mWindow;
 }
 
 const bool Game::running() const
@@ -229,12 +229,61 @@ void Game::updateMousePositions()
     mMousePosView = mWindow->mapPixelToCoords(mMousePosWindow);
 }
 
-void Game::updateMaxPoint()
+std::string Game::getData(int lineNumber)
 {
-    mMaxPoint = mPoints;
-    std::stringstream mm;
-    mm << "Max Point = " << mMaxPoint;
-    mMaxpointText.setString(mm.str());
+    static const std::string FILE_PATH = "./Data/MaxPoint.txt";
+    std::ifstream input_file(FILE_PATH);
+    if (input_file.is_open())
+    {
+        int current_line = 1;
+        while (current_line < lineNumber)
+        {
+            current_line++;
+        }
+        return std::to_string(current_line);
+        // input_file.close();
+    }
+    else
+    {
+        return "ERROR::INPUT_FILE::SAVE_DATA";
+    }
+}
+
+void Game::saveData(int lineNumber)
+{
+    static const std::string FILE_PATH = "./Data/MaxPoint.txt";
+    std::ofstream output_file(FILE_PATH);
+
+    if (output_file.is_open())
+    {
+        output_file << "Max Point = " << mMaxPoint;
+        output_file.close();
+    }
+
+    else
+    {
+        // Create a new one
+        std::cout << "ERROR::GET_DATA::INPUT::FILE";
+    }
+
+    // if (mPoints > mMaxPoint)
+    // {
+    //     mMaxPoint = mPoints;
+    //     input_file >> mMaxPoint;
+
+    //     // out_file << "Max Point = " << mMaxPoint;
+    //     std::stringstream mm;
+    //     mm << "Max Point = " << mMaxPoint;
+    //     mMaxpointText.setString(mm.str());
+    // }
+    // else
+    // {
+    //     // out_file << "Max Point = " << mPoints;
+
+    //     std::stringstream mm;
+    //     mm << mPoints;
+    //     mMaxpointText.setString(mm.str());
+    // }
 }
 
 void Game::updateText()
@@ -257,9 +306,9 @@ void Game::update()
     }
 
     // End game condition
-    if (!mHealth)
+    if (mHealth <= 0)
     {
-        updateMaxPoint();
+        saveData(1);
         mWindow->clear();
         // mEndGame = true;
     }

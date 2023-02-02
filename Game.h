@@ -4,9 +4,11 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 #include <SFML/Window.hpp>
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 #include <sstream>
+#include <fstream>
+#include <string>
 #include <vector>
 #include <ctime>
 #include <cmath>
@@ -16,8 +18,8 @@ class Game
     // Local variable: variableName;
     // Global variable: mVariableName;
     // CONSTANT variable: MAX_ENEMIES
-    const int WINDOW_HEIGH = 1000;
-    const int WINDOW_WIDTH = 1000;
+    static const int WINDOW_HEIGH = 1000;
+    static const int WINDOW_WIDTH = 1000;
 
 private:
     // Ceriables
@@ -33,21 +35,28 @@ private:
     // Resources
     sf::Font mFont;
 
+    // Border for text
+    sf::Sprite mSprite;
+
     // Text
     sf::Text mUiText;
     sf::Text mMaxpointText;
 
     // Game Logic
     unsigned mMaxPoint;
-    unsigned  mPoints;
+    unsigned mPoints;
     int mHealth;
+
     float mEnemySpawnTimer;
     float mEnemySpawnTimerMax;
     const int MAX_ENEMIES = 30;
     bool mMouseHeld;
     bool mEndGame;
-    float mGravity = 100.f;
-    unsigned  mDistance = 0;
+    float mGravity = 4.f;
+    unsigned mDistance = 0;
+
+    // Comparing Veriables
+    // unsigned
 
     bool mRed2 = 1, mGreen2 = 1, mBlue2 = 1;
     int mRed = 0, mGreen = 0, mBlue = 0;
@@ -81,7 +90,8 @@ public:
     void pollEvent();
     void update();
     void updateEnemies();
-    void updateMaxPoint();
+    void saveData(int lineNumber);
+    std::string getData(int lineNumber);
     void updateMousePositions();
     void updateText();
 
