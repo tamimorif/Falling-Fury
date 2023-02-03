@@ -231,7 +231,7 @@ void Game::updateMousePositions()
 
 std::string Game::getData(int lineNumber)
 {
-    static const std::string FILE_PATH = "./Data/MaxPoint.txt";
+    static const std::string FILE_PATH = "../Data/MaxPoint.txt";
     std::ifstream input_file(FILE_PATH);
     if (input_file.is_open())
     {
@@ -245,13 +245,13 @@ std::string Game::getData(int lineNumber)
     }
     else
     {
-        return "ERROR::INPUT_FILE::SAVE_DATA";
+        return "0";
     }
 }
 
 void Game::saveData(int lineNumber)
 {
-    static const std::string FILE_PATH = "./Data/MaxPoint.txt";
+    static const std::string FILE_PATH = "../Data/MaxPoint.txt";
     std::ofstream output_file(FILE_PATH);
 
     if (output_file.is_open())
