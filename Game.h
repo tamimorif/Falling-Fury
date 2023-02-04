@@ -89,13 +89,12 @@ public:
     void pollEvent();
     void update();
     void updateEnemies();
-    void saveData(int lineNumber);
+    std::string saveData();
     std::string getData(int lineNumber);
     void updateMousePositions();
     void updateText();
 
     void renderMaxPoint();
-    void renderCounter();
     void renderText();
     void renderEnemies();
     void render();

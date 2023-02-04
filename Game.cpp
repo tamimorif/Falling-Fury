@@ -1,4 +1,6 @@
 #include "Game.h"
+#include <sstream>
+
 // Constructor
 Game::Game() : mVideoMode(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGH)),
                mWindow(new sf::RenderWindow(mVideoMode, "Game 1", sf::Style::Titlebar | sf::Style::Close)),
@@ -44,7 +46,7 @@ void Game::initText()
     mUiText.setFont(mFont);
     mUiText.setCharacterSize(50);
     mUiText.setColor(sf::Color::Cyan);
-    mUiText.setPosition(300.f, 30.f);
+    mUiText.setPosition(170.f, 30.f);
     mUiText.setString("NONE");
 }
 
@@ -54,8 +56,6 @@ void Game::initMaxPoint()
     mMaxpointText.setCharacterSize(50);
     mMaxpointText.setColor(sf::Color::White);
     mMaxpointText.setPosition(-200.f, (mWindow->getSize().y / 2) - 50.f);
-    // mMaxpointText.setPosition(400.f, 30.f);`
-    // mMaxpointText.setString("NONE");
 }
 
 const bool Game::running() const
@@ -157,13 +157,9 @@ void Game::updateEnemies()
 void Game::renderEnemies()
 {
     // Rendering all the mEnemies
-    // for (auto &i : mEnemies)
-    // {
-    //     mWindow->draw(i);
-    // }
-    for (int i = 0; i < mEnemies.size(); i++)
+    for (auto &i : mEnemies)
     {
-        mWindow->draw(mEnemies[i]);
+        mWindow->draw(i);
     }
 }
 void Game::renderText()
@@ -199,11 +195,6 @@ void Game::renderMaxPoint()
     mWindow->draw(mMaxpointText);
 }
 
-void Game::renderCounter()
-{
-    // draw RectangleShape for counter in window
-}
-
 void Game::pollEvent()
 {
     // Event Poling
@@ -218,6 +209,7 @@ void Game::pollEvent()
         }
     }
 }
+
 void Game::updateMousePositions()
 {
     /*
@@ -231,66 +223,40 @@ void Game::updateMousePositions()
 
 std::string Game::getData(int lineNumber)
 {
-    static const std::string FILE_PATH = "../Data/MaxPoint.txt";
+    static const std::string FILE_PATH = "./bin/data.txt";
     std::ifstream input_file(FILE_PATH);
-    if (input_file.is_open())
+
+    // TODO: Throw an exception where the file is not open
+    if (!input_file.is_open())
     {
-        int current_line = 1;
-        while (current_line < lineNumber)
-        {
-            current_line++;
-        }
-        return std::to_string(current_line);
-        // input_file.close();
+        throw std::runtime_error("No input file GET_DATA");
+        input_file.close();
     }
-    else
-    {
-        return "0";
-    }
+    input_file >> mPoints;
+    return std::to_string(mPoints);
 }
 
-void Game::saveData(int lineNumber)
+std::string Game::saveData()
 {
-    static const std::string FILE_PATH = "../Data/MaxPoint.txt";
+    static const std::string FILE_PATH = "./bin/data.txt";
     std::ofstream output_file(FILE_PATH);
-
     if (output_file.is_open())
     {
-        output_file << "Max Point = " << mMaxPoint;
+        std::string out = getData(1);
+        output_file << "Max Point = " << out;
         output_file.close();
+        return out;
     }
-
-    else
-    {
-        // Create a new one
-        std::cout << "ERROR::GET_DATA::INPUT::FILE";
-    }
-
-    // if (mPoints > mMaxPoint)
-    // {
-    //     mMaxPoint = mPoints;
-    //     input_file >> mMaxPoint;
-
-    //     // out_file << "Max Point = " << mMaxPoint;
-    //     std::stringstream mm;
-    //     mm << "Max Point = " << mMaxPoint;
-    //     mMaxpointText.setString(mm.str());
-    // }
-    // else
-    // {
-    //     // out_file << "Max Point = " << mPoints;
-
-    //     std::stringstream mm;
-    //     mm << mPoints;
-    //     mMaxpointText.setString(mm.str());
-    // }
+    // return "No Output file SAVE_DATA";
+    throw std::runtime_error("No Output file SAVE_DATA");
 }
 
 void Game::updateText()
 {
     std::stringstream ss;
     ss << "Health = " << mHealth << "     "
-       << "Points = " << mPoints;
+       << "Points = " << mPoints << "     "
+       << "Max Point = " << saveData();
     mUiText.setString(ss.str());
 }
 
@@ -308,8 +274,8 @@ void Game::update()
     // End game condition
     if (mHealth <= 0)
     {
-        saveData(1);
         mWindow->clear();
+        getData(1);
         // mEndGame = true;
     }
 }
