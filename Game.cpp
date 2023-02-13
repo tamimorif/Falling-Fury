@@ -242,10 +242,9 @@ std::string Game::saveData()
     std::ofstream output_file(FILE_PATH);
     if (output_file.is_open())
     {
-        std::string out = getData(1);
-        output_file << "Max Point = " << out;
+        output_file << "Max Point = " << getData(1);
         output_file.close();
-        return out;
+        return getData(1);
     }
     // return "No Output file SAVE_DATA";
     throw std::runtime_error("No Output file SAVE_DATA");
