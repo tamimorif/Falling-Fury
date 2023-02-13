@@ -54,8 +54,6 @@ private:
     float mGravity = 4.f;
     unsigned mDistance = 0;
 
-    // Comparing Veriables
-    // unsigned
 
     bool mRed2 = 1, mGreen2 = 1, mBlue2 = 1;
     int mRed = 0, mGreen = 0, mBlue = 0;

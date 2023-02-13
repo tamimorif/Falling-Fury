@@ -1,6 +1,4 @@
 #include "Game.h"
-#include <sstream>
-
 // Constructor
 Game::Game() : mVideoMode(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGH)),
                mWindow(new sf::RenderWindow(mVideoMode, "Game 1", sf::Style::Titlebar | sf::Style::Close)),
@@ -23,6 +21,117 @@ Game::Game() : mVideoMode(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGH)),
 Game::~Game()
 {
     delete mWindow;
+}
+
+void Game::update()
+{
+    pollEvent();
+
+    if (mEndGame == false)
+    {
+        updateMousePositions();
+        updateEnemies();
+        updateText();
+    }
+}
+
+void Game::render()
+{
+    mWindow->clear();
+
+    renderEnemies();
+
+    renderText();
+
+    if (mHealth <= 0)
+    {
+        mWindow->clear();
+        renderMaxPoint();
+    }
+
+    mWindow->display();
+}
+
+void Game::updateMousePositions()
+{
+    /*
+    @return void
+    Update Mouse Positions:
+    -Mouse Position relative to mWindow (Vector2i);
+    */
+    mMousePosWindow = sf::Mouse::getPosition(*mWindow);
+    mMousePosView = mWindow->mapPixelToCoords(mMousePosWindow);
+}
+
+void Game::updateEnemies()
+{
+    /*
+    @return void
+    Updates the mEnemy swapn timer and spawn mEnemies
+    When the total amount of mEnemies is smaller than the maximum.
+    Moves the mEnemies downwords.
+    Removes the mEnemies at the edge of the screen. // TODO
+    */
+
+    // Updating the timer for mEnemy swapwning
+    if (mEnemies.size() < MAX_ENEMIES)
+    {
+        if (mEnemySpawnTimer >= mEnemySpawnTimerMax)
+        {
+            // Spawn the mEnemy and reset the timer
+            spawnEnemy();
+            mEnemySpawnTimer = 0.f;
+        }
+        else
+            mEnemySpawnTimer += 1.f;
+    }
+    // Move the updating mEnemies
+    for (int i = 0; i < mEnemies.size(); i++)
+    {
+        bool deleted = false;
+        mEnemies[i].move(0.f, mGravity);
+
+        if (mEnemies[i].getPosition().y > mWindow->getSize().y)
+        {
+            mHealth--;
+            mEnemies.erase(mEnemies.begin() + i);
+        }
+    }
+    // Check if clicked upon
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+    {
+        if (!mMouseHeld)
+        {
+            mMouseHeld = true;
+            bool deleted = false;
+            for (int i = 0; i < mEnemies.size() && !deleted; i++)
+            {
+                if (mEnemies[i].getGlobalBounds().contains(mMousePosView))
+                {
+                    // Deleted the enemy
+                    deleted = true;
+                    mEnemies.erase(mEnemies.begin() + i);
+
+                    // Gain Points
+                    mHealth++;
+                    mPoints++;
+                }
+            }
+        }
+    }
+    else
+    {
+        mMouseHeld = false;
+    }
+}
+
+void Game::updateText()
+{
+    std::stringstream ss;
+    ss << "Health = " << mHealth << "     "
+       << "Points = " << mPoints << "     "
+       << saveData();
+    mUiText.setString(ss.str());
 }
 
 void Game::initEnemies()
@@ -92,67 +201,6 @@ void Game::spawnEnemy()
         mEnemies.push_back(mEnemy);
     }
 }
-void Game::updateEnemies()
-{
-    /*
-    @return void
-    Updates the mEnemy swapn timer and spawn mEnemies
-    When the total amount of mEnemies is smaller than the maximum.
-    Moves the mEnemies downwords.
-    Removes the mEnemies at the edge of the screen. // TODO
-    */
-
-    // Updating the timer for mEnemy swapwning
-    if (mEnemies.size() < MAX_ENEMIES)
-    {
-        if (mEnemySpawnTimer >= mEnemySpawnTimerMax)
-        {
-            // Spawn the mEnemy and reset the timer
-            spawnEnemy();
-            mEnemySpawnTimer = 0.f;
-        }
-        else
-            mEnemySpawnTimer += 1.f;
-    }
-    // Move the updating mEnemies
-    for (int i = 0; i < mEnemies.size(); i++)
-    {
-        bool deleted = false;
-        mEnemies[i].move(0.f, mGravity);
-
-        if (mEnemies[i].getPosition().y > mWindow->getSize().y)
-        {
-            mHealth--;
-            mEnemies.erase(mEnemies.begin() + i);
-        }
-    }
-    // Check if clicked upon
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-    {
-        if (!mMouseHeld)
-        {
-            mMouseHeld = true;
-            bool deleted = false;
-            for (int i = 0; i < mEnemies.size() && !deleted; i++)
-            {
-                if (mEnemies[i].getGlobalBounds().contains(mMousePosView))
-                {
-                    // Deleted the enemy
-                    deleted = true;
-                    mEnemies.erase(mEnemies.begin() + i);
-
-                    // Gain Points
-                    mHealth++;
-                    mPoints++;
-                }
-            }
-        }
-    }
-    else
-    {
-        mMouseHeld = false;
-    }
-}
 
 void Game::renderEnemies()
 {
@@ -189,9 +237,8 @@ void Game::renderMaxPoint()
     mMaxpointText.move(5.f, 0.f);
     if (mMaxpointText.getPosition().x > mWindow->getSize().x)
         mMaxpointText.setPosition(-200.f, mMaxpointText.getPosition().y);
+    mMaxpointText.setFillColor(sf::Color(mRed, mGreen, mBlue, 255));
     nextColor();
-    mMaxpointText.setColor(sf::Color(mRed, mGreen, mBlue, 255));
-
     mWindow->draw(mMaxpointText);
 }
 
@@ -210,17 +257,6 @@ void Game::pollEvent()
     }
 }
 
-void Game::updateMousePositions()
-{
-    /*
-    @return void
-    Update Mouse Positions:
-    -Mouse Position relative to mWindow (Vector2i);
-    */
-    mMousePosWindow = sf::Mouse::getPosition(*mWindow);
-    mMousePosView = mWindow->mapPixelToCoords(mMousePosWindow);
-}
-
 std::string Game::getData(int lineNumber)
 {
     static const std::string FILE_PATH = "./bin/data.txt";
@@ -228,66 +264,27 @@ std::string Game::getData(int lineNumber)
 
     // TODO: Throw an exception where the file is not open
     if (!input_file.is_open())
-    {
         throw std::runtime_error("No input file GET_DATA");
-        input_file.close();
+
+    if (mPoints > mMaxPoint)
+    {
+        mMaxPoint = mPoints;
     }
-    input_file >> mPoints;
-    return std::to_string(mPoints);
+    input_file >> mMaxPoint;
+    return std::to_string(mMaxPoint);
 }
 
 std::string Game::saveData()
 {
     static const std::string FILE_PATH = "./bin/data.txt";
-    std::ofstream output_file(FILE_PATH);
-    if (output_file.is_open())
-    {
-        output_file << "Max Point = " << getData(1);
-        output_file.close();
-        return getData(1);
-    }
-    // return "No Output file SAVE_DATA";
-    throw std::runtime_error("No Output file SAVE_DATA");
-}
+    std::ofstream output_file(FILE_PATH, std::ios::ate);
 
-void Game::updateText()
-{
-    std::stringstream ss;
-    ss << "Health = " << mHealth << "     "
-       << "Points = " << mPoints << "     "
-       << "Max Point = " << saveData();
-    mUiText.setString(ss.str());
-}
+    if (!output_file.is_open())
+        throw std::runtime_error("No Output file SAVE_DATA");
 
-void Game::update()
-{
-    pollEvent();
-
-    if (mEndGame == false)
-    {
-        updateMousePositions();
-        updateEnemies();
-        updateText();
-    }
-
-    // End game condition
-    if (mHealth <= 0)
-    {
-        mWindow->clear();
-        getData(1);
-        // mEndGame = true;
-    }
-}
-void Game::render()
-{
-    mWindow->clear();
-
-    renderEnemies();
-
-    renderText();
-
-    if (mHealth <= 0)
-        mWindow->clear(), renderMaxPoint();
-
-    mWindow->display();
+    std::string s = "Max Point = ";
+    s += getData(1);
+    output_file << s;
+    output_file.close();
+    return s;
 }
