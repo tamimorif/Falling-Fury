@@ -237,8 +237,8 @@ void Game::renderMaxPoint()
     mMaxpointText.move(5.f, 0.f);
     if (mMaxpointText.getPosition().x > mWindow->getSize().x)
         mMaxpointText.setPosition(-200.f, mMaxpointText.getPosition().y);
-    mMaxpointText.setFillColor(sf::Color(mRed, mGreen, mBlue, 255));
     nextColor();
+    mMaxpointText.setColor(sf::Color(mRed, mGreen, mBlue, 255));
     mWindow->draw(mMaxpointText);
 }
 

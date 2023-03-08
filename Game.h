@@ -11,7 +11,6 @@
 #include <string>
 #include <vector>
 #include <ctime>
-
 class Game
 {
     // Local variable: variableName;
@@ -91,7 +90,7 @@ public:
     std::string getData(int lineNumber);
     void updateMousePositions();
     void updateText();
-
+    
     void renderMaxPoint();
     void renderText();
     void renderEnemies();
