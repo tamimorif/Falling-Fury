@@ -62,6 +62,7 @@ void Game::updateMousePositions()
     mMousePosWindow = sf::Mouse::getPosition(*mWindow);
     mMousePosView = mWindow->mapPixelToCoords(mMousePosWindow);
 }
+#include<iostream>
 
 void Game::updateEnemies()
 {
