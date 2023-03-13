@@ -132,8 +132,7 @@ void Game::updateText()
     std::stringstream ss;
     ss << "Health = " << mHealth << "     "
        << "Points = " << mPoints << "     "
-       << "Max Point = ";
-    getData();
+       << "Max Point = " << getData();
     mUiText.setString(ss.str());
 }
 
@@ -268,10 +267,10 @@ std::string Game::getData()
     if (!output_file.is_open())
         throw std::runtime_error("No Output file SAVE_DATA");
     // it just output in file data
-    output_file << "Max Point = " << saveData();
+    output_file <<  saveData();
 
-    return saveData();
     output_file.close();
+    return saveData();
 }
 
 std::string Game::saveData()
@@ -285,7 +284,6 @@ std::string Game::saveData()
     if (mPoints > mMaxPoint)
         mMaxPoint = mPoints;
     input_file >> mMaxPoint;
-
-    return std::to_string(mMaxPoint);
     input_file.close();
+    return std::to_string(mMaxPoint);
 }
