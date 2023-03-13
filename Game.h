@@ -53,7 +53,6 @@ private:
     float mGravity = 4.f;
     unsigned mDistance = 0;
 
-
     bool mRed2 = 1, mGreen2 = 1, mBlue2 = 1;
     int mRed = 0, mGreen = 0, mBlue = 0;
     int mSpeed = 50;
@@ -86,11 +85,11 @@ public:
     void pollEvent();
     void update();
     void updateEnemies();
-    std::string saveData();
-    std::string getData(int lineNumber);
     void updateMousePositions();
     void updateText();
-    
+    std::string saveData();
+    std::string getData();
+
     void renderMaxPoint();
     void renderText();
     void renderEnemies();

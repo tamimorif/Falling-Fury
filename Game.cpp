@@ -3,7 +3,8 @@
 Game::Game() : mVideoMode(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGH)),
                mWindow(new sf::RenderWindow(mVideoMode, "Game 1", sf::Style::Titlebar | sf::Style::Close)),
                mPoints(0),
-               mMaxPoint(std::stoi(getData(1))),
+               mMaxPoint(std::stoi(saveData())),
+               //    mMaxPoint(0),
                mHealth(10),
                mEndGame(false),
                mEnemySpawnTimerMax(10.f),
@@ -62,7 +63,7 @@ void Game::updateMousePositions()
     mMousePosWindow = sf::Mouse::getPosition(*mWindow);
     mMousePosView = mWindow->mapPixelToCoords(mMousePosWindow);
 }
-#include<iostream>
+#include <iostream>
 
 void Game::updateEnemies()
 {
@@ -131,7 +132,8 @@ void Game::updateText()
     std::stringstream ss;
     ss << "Health = " << mHealth << "     "
        << "Points = " << mPoints << "     "
-       << saveData();
+       << "Max Point = ";
+    getData();
     mUiText.setString(ss.str());
 }
 
@@ -258,34 +260,32 @@ void Game::pollEvent()
     }
 }
 
-std::string Game::getData(int lineNumber)
+std::string Game::getData()
 {
-    static const std::string FILE_PATH = "./bin/data.txt";
-    std::ifstream input_file(FILE_PATH);
-
-    // TODO: Throw an exception where the file is not open
-    if (!input_file.is_open())
-        throw std::runtime_error("No input file GET_DATA");
-
-    if (mPoints > mMaxPoint)
-    {
-        mMaxPoint = mPoints;
-    }
-    input_file >> mMaxPoint;
-    return std::to_string(mMaxPoint);
-}
-
-std::string Game::saveData()
-{
-    static const std::string FILE_PATH = "./bin/data.txt";
+    static const std::string FILE_PATH = "../database/data.txt";
     std::ofstream output_file(FILE_PATH, std::ios::ate);
 
     if (!output_file.is_open())
         throw std::runtime_error("No Output file SAVE_DATA");
+    // it just output in file data
+    output_file << "Max Point = " << saveData();
 
-    std::string s = "Max Point = ";
-    s += getData(1);
-    output_file << s;
+    return saveData();
     output_file.close();
-    return s;
+}
+
+std::string Game::saveData()
+{
+    static const std::string FILE_PATH = "../database/data.txt";
+    std::ifstream input_file(FILE_PATH);
+
+    if (!input_file.is_open())
+        throw std::runtime_error("No input file GET_DATA");
+
+    if (mPoints > mMaxPoint)
+        mMaxPoint = mPoints;
+    input_file >> mMaxPoint;
+
+    return std::to_string(mMaxPoint);
+    input_file.close();
 }
