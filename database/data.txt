@@ -1,1 +1,1 @@
-Max Point = 0
+Max Point = 1
