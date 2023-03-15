@@ -1,4 +1,4 @@
-#include "Game.hpp"
+#include "Game.h"
 // Constructor
 Game::Game() : mVideoMode(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGH)),
                mWindow(new sf::RenderWindow(mVideoMode, "Game 1", sf::Style::Titlebar | sf::Style::Close)),
