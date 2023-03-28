@@ -28,12 +28,11 @@ void Game::update()
 {
     pollEvent();
 
-    if (mEndGame == false)
-    {
-        updateMousePositions();
-        updateEnemies();
-        updateText();
-    }
+    if (mEndGame)
+        return;
+    updateMousePositions();
+    updateEnemies();
+    updateText();
 }
 
 void Game::render()
