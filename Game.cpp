@@ -155,7 +155,10 @@ void Game::initText()
 {
     mUiText.setFont(mFont);
     mUiText.setCharacterSize(50);
-    mUiText.setColor(sf::Color::Cyan);
+    mUiText.setFillColor(sf::Color::Cyan);
+    // mUiText.setFillColor(sf::Color::Cyan);
+    // mMaxpointText.setFillColor(sf::Color::White);
+    // mMaxpointText.setFillColor(sf::Color(mRed, mGreen, mBlue, 255));
     mUiText.setPosition(170.f, 30.f);
     mUiText.setString("NONE");
 }
@@ -266,7 +269,7 @@ std::string Game::getData()
     if (!output_file.is_open())
         throw std::runtime_error("No Output file SAVE_DATA");
     // it just output in file data
-    output_file <<  saveData();
+    output_file << saveData();
 
     output_file.close();
     return saveData();
