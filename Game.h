@@ -89,7 +89,7 @@ public:
     void updateText();
     std::string saveData();
     std::string getData();
-
+    // std::string resetData();
     void renderMaxPoint();
     void renderText();
     void renderEnemies();

@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <iostream>
 // Constructor
 Game::Game() : mVideoMode(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGH)),
                mWindow(new sf::RenderWindow(mVideoMode, "Game 1", sf::Style::Titlebar | sf::Style::Close)),
@@ -62,7 +63,6 @@ void Game::updateMousePositions()
     mMousePosWindow = sf::Mouse::getPosition(*mWindow);
     mMousePosView = mWindow->mapPixelToCoords(mMousePosWindow);
 }
-#include <iostream>
 
 void Game::updateEnemies()
 {
@@ -282,10 +282,23 @@ std::string Game::saveData()
 
     if (!input_file.is_open())
         throw std::runtime_error("No input file GET_DATA");
-
+    // if (mMaxPoint == mMaxPoint)
+    //     mMaxPoint = 0;
     if (mPoints > mMaxPoint)
         mMaxPoint = mPoints;
     input_file >> mMaxPoint;
     input_file.close();
     return std::to_string(mMaxPoint);
 }
+
+// std::string Game::resetData()
+// {
+//     static const std::string FILE_PATH = "../database/data.txt";
+//     std::ifstream input_file(FILE_PATH);
+
+//     if (!input_file.is_open())
+//         throw std::runtime_error("No input file GET_DATA");
+
+//     input_file.close();
+//     return std::to_string(0);
+// }
