@@ -1,84 +1,105 @@
+# **SFML Falling Objects Game** 🎮
 
-# **C++ 2D Game (Falling Fury)**
-
-A fun and interactive 2D game developed in **C++** using the **SFML library**. This project includes dynamic gameplay mechanics, a responsive user interface, and a persistent scoring system.
-
----
-
-## **Features**
-- **Dynamic Gameplay**: Enemies spawn randomly and move dynamically, creating a challenging and engaging experience.  
-- **Real-Time UI Updates**: Displays player health, score, and maximum points with responsive text rendering.  
-- **Persistent Data Storage**: Tracks high scores using file I/O, ensuring progress is saved across sessions.  
-- **Visual Effects**: Includes smooth animations, color transitions, and custom-designed game elements.  
-- **Cross-Platform Build**: Built with **CMake**, allowing easy compilation on various platforms.  
+A fun and dynamic game developed using **C++** and **SFML**, where players must click on falling objects to gain points while avoiding missing them. The game includes health tracking, high-score saving, and smooth animations.
 
 ---
 
-## **Tech Stack**
+## 🚀 **Features**
+- 🎯 **Challenging Gameplay**: Objects fall at increasing speeds, providing an engaging experience.  
+- 🖱️ **Mouse Click Interaction**: Click on objects to gain points.  
+- ❤️ **Health System**: Lose health when objects reach the bottom.  
+- 📊 **High Score Tracking**: Saves your highest score to a file.  
+- 🎮 **Smooth SFML Graphics**: Uses SFML for rendering and event handling.  
+- 🕹️ **Simple Controls**: Intuitive and easy-to-learn mechanics.
+
+---
+
+## 🛠 **Tech Stack**
 - **Programming Language**: C++  
-- **Library**: SFML (Simple and Fast Multimedia Library)  
-- **Build System**: CMake  
-- **Tools**: Bash scripting for build automation  
+- **Graphics Library**: SFML  
 
 ---
 
-## **Installation**
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/tamimorif/Falling-Fury.git
-   cd cpp-2d-game
-   ```
-2. Build and run the project:
-   ```bash
-   chmod +x build.sh
-   ./build.sh
-   ```
+## 📥 **Installation & Setup**
+### **1. Install SFML**
+Make sure you have SFML installed on your system. If you don’t, you can install it as follows:
+```sh
+sudo apt-get install libsfml-dev # Ubuntu
+brew install sfml # macOS
+choco install sfml # Windows (via Chocolatey)
+```
 
----
+### **2. Clone the Repository**
+```sh
+git clone https://github.com/yourusername/sfml-falling-game.git
+cd sfml-falling-game
+```
 
-## **Gameplay Instructions**
-- **Objective**: Click on falling enemies to gain points while avoiding losing health.  
-- **Controls**: Use the mouse to interact with the game.  
-- **Winning**: Aim to beat your high score!
-
----
-
-## **Project Structure**
-```plaintext
-.
-├── Game.h              # Core game logic header
-├── Game.cpp            # Implementation of game mechanics
-├── main.cpp            # Main entry point of the application
-├── build.sh            # Bash script for building the project
-├── CMakeLists.txt      # CMake configuration file
-└── Fonts/              # Fonts used for text rendering
+### **3. Compile and Run**
+Compile the project using `g++` and run the game:
+```sh
+g++ -o game main.cpp Game.cpp -lsfml-graphics -lsfml-window -lsfml-system
+./game
+```
+If using **CMake**, configure and build:
+```sh
+mkdir build && cd build
+cmake ..
+make
+./game
 ```
 
 ---
 
-## **Contributing**
-Contributions are welcome! If you'd like to improve the game, follow these steps:  
+## 🎮 **Gameplay Instructions**
+- **Objective**: Click on falling objects to score points before they reach the ground.  
+- **Controls**:
+  - 🖱️ **Left Mouse Click**: Click objects to gain points.  
+  - ⬅️➡️ **Arrow Keys**: Move the basket (if enabled in the game).  
+- **Scoring System**:
+  - ✅ Successfully clicking objects increases your score.  
+  - ❌ Missing objects reduces your health.  
+  - ❤️ If health reaches 0, the game ends.
+
+---
+
+## 📂 **Project Structure**
+```plaintext
+.
+├── main.cpp       # Game loop and main execution file
+├── Game.cpp       # Game logic and rendering functions
+├── Game.h         # Header file for Game class
+├── database/      # Directory to store high-score data
+├── Fonts/         # Directory for font files
+├── README.md      # Project documentation
+```
+
+---
+
+## 🤝 **Contributing**
+Want to enhance the game? Follow these steps:
 1. Fork the repository.  
 2. Create a feature branch:  
-   ```bash
+   ```sh
    git checkout -b feature-name
    ```  
-3. Commit changes and push:  
-   ```bash
-   git commit -m "Add your feature"
+3. Commit and push changes:  
+   ```sh
+   git commit -m "Add new feature"
    git push origin feature-name
    ```  
 4. Submit a pull request.  
 
 ---
 
-## **License**
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+## 📜 **License**
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 ---
 
-## **Contact**
+## 📧 **Contact**
 **Author**: Tamim Orif  
-**GitHub**: [tamimorif](https://github.com/tamimorif)  
+**GitHub**: [tamimorif](https://github.com/tamimorif/Falling-Fury)  
 
-Feel free to reach out for questions or suggestions!
+For suggestions or collaborations, feel free to reach out! 🚀
+
