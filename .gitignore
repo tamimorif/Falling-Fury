@@ -1,11 +1,49 @@
-# Prerequisites
-*.d
+# Falling Fury - .gitignore
+
+# Build directories
+build/
+**/build/
+cmake-build-*/
+bin/
+lib/
+out/
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+Testing/
+CTestTestfile.cmake
+compile_commands.json
+.cache/
+
+# IDE specific files
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# CLion / IntelliJ
+.idea/
+cmake-build-debug/
+cmake-build-release/
+
+# Visual Studio
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
 
 # Compiled Object files
+*.d
 *.slo
 *.lo
 *.o
 *.obj
+*.elf
 
 # Precompiled Headers
 *.gch
@@ -31,7 +69,25 @@
 *.out
 *.app
 
-**/build/
+# macOS
 .DS_Store
-.vscode/
-.cache/
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Game specific - Keep template but ignore actual data
+database/data.txt
+database/leaderboard.txt
+database/*.tmp
+*.log
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.swp
+*~

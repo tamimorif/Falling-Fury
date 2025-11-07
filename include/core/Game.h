@@ -1,40 +1,37 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
+#include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <algorithm>
-#include <iostream>
-#include <sstream>
+#include <ctime>
 #include <fstream>
+#include <iostream>
+#include <memory>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <ctime>
-class Game
-{
+
+#include "managers/ResourceManager.h"
+
+class Game {
     // Local variable: variableName;
     // Global variable: mVariableName;
     // CONSTANT variable: MAX_ENEMIES
     static const int WINDOW_HEIGH = 1000;
     static const int WINDOW_WIDTH = 1000;
 
-private:
-    // Ceriables
+   private:
+    // Variables
     // Window
     sf::VideoMode mVideoMode;
-    sf::RenderWindow *mWindow;
+    std::unique_ptr<sf::RenderWindow> mWindow;
     sf::Event mEvent;
 
     // Mouse Position
     sf::Vector2i mMousePosWindow;
     sf::Vector2f mMousePosView;
-
-    // Resources
-    sf::Font mFont;
-
-    // Border for text
-    sf::Sprite mSprite;
 
     // Text
     sf::Text mUiText;
@@ -50,8 +47,12 @@ private:
     const int MAX_ENEMIES = 30;
     bool mMouseHeld;
     bool mEndGame;
-    float mGravity = 4.f;
+    float mGravity = 200.f;  // Pixels per second
     unsigned mDistance = 0;
+
+    // Delta Time
+    sf::Clock mDeltaClock;
+    float mDeltaTime;
 
     bool mRed2 = 1, mGreen2 = 1, mBlue2 = 1;
     int mRed = 0, mGreen = 0, mBlue = 0;
@@ -63,12 +64,11 @@ private:
 
     // Privet Functions
     void initWindow();
-    void initFonts();
-    void initMaxPoint();
     void initText();
+    void initMaxPoint();
     void initEnemies();
 
-public:
+   public:
     // Constructors
     Game();
     virtual ~Game();
@@ -81,6 +81,7 @@ public:
     void spawnEnemy();
 
     void nextColor();
+    void updateDeltaTime();
 
     void pollEvent();
     void update();
