@@ -1,11 +1,5 @@
 /Users/tamimorif/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Users/tamimorif/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S /Users/tamimorif/Documents/GitHub/Falling-Fury -B /Users/tamimorif/Documents/GitHub/Falling-Fury/cmake-build-debug
--- The CXX compiler identification is AppleClang 17.0.0.17000319
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: /usr/bin/c++ - skipped
--- Detecting CXX compile features
--- Detecting CXX compile features - done
--- Using local SFML frameworks from: /Users/tamimorif/Documents/GitHub/Falling-Fury/SFML
+-- Using local SFML frameworks from: /Users/tamimorif/Documents/GitHub/Falling-Fury/third_party/sfml-macos
 -- 
 -- ====================================
 -- Falling Fury - Configuration Summary
@@ -16,8 +10,10 @@
 -- Source Directory: /Users/tamimorif/Documents/GitHub/Falling-Fury
 -- Binary Directory: /Users/tamimorif/Documents/GitHub/Falling-Fury/cmake-build-debug
 -- Output Directory: /Users/tamimorif/Documents/GitHub/Falling-Fury/cmake-build-debug/bin
+-- Native App Root: /Users/tamimorif/Documents/GitHub/Falling-Fury/apps/native
+-- Web App Root: /Users/tamimorif/Documents/GitHub/Falling-Fury/apps/web/site
 -- ====================================
 -- 
--- Configuring done (0.3s)
--- Generating done (0.1s)
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
 -- Build files have been written to: /Users/tamimorif/Documents/GitHub/Falling-Fury/cmake-build-debug

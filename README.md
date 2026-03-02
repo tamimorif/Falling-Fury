@@ -1,128 +1,76 @@
-# **SFML Falling Objects Game** 🎮
+# Falling Fury
 
-A fun and dynamic game developed using **C++** and **SFML**, where players must click on falling objects to gain points while avoiding missing them. The game includes health tracking, high-score saving, and smooth animations.
+Falling Fury is an arcade clicker game with two delivery targets:
+- Native desktop game in C++ with SFML.
+- Browser deployment for GitHub Pages.
 
----
+## Project Structure
 
-## 🚀 **Features**
-- 🎯 **Challenging Gameplay**: Objects fall at increasing speeds, providing an engaging experience.  
-- 🖱️ **Mouse Click Interaction**: Click on objects to gain points.  
-- ❤️ **Health System**: Lose health when objects reach the bottom.  
-- 📊 **High Score Tracking**: Saves your highest score to a file.  
-- 🎮 **Smooth SFML Graphics**: Uses SFML for rendering and event handling.  
-- 🕹️ **Simple Controls**: Intuitive and easy-to-learn mechanics.
-
----
-
-## 🛠 **Tech Stack**
-- **Programming Language**: C++  
-- **Graphics Library**: SFML  
-
----
-
-## 🌐 **Run On GitHub Pages**
-This repository now includes a browser version in `web/` and an automatic GitHub Pages deployment workflow.
-The original C++ SFML game remains the desktop/native build path.
-
-### **1. Enable Pages in repo settings**
-1. Open **Settings** → **Pages** in your GitHub repository.
-2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-
-### **2. Push to `main`**
-When you push to `main`, GitHub will run:
-- `.github/workflows/pages.yml` to deploy `web/`
-- `.github/workflows/cmake-single-platform.yml` for native C++ CI
-
-### **3. Open your site**
-- Project pages URL: `https://<username>.github.io/<repo-name>/`
-- User/organization pages URL: `https://<username>.github.io/`
-
-### **4. Custom domain (optional)**
-1. Add your domain in **Settings** → **Pages** → **Custom domain**.
-2. Create/update DNS records at your domain provider.
-3. Add a `CNAME` file inside `web/` containing only your domain (example: `game.example.com`).
-
----
-
-## 📥 **Installation & Setup**
-### **1. Install SFML**
-Make sure you have SFML installed on your system. If you don’t, you can install it as follows:
-```sh
-sudo apt-get install libsfml-dev # Ubuntu
-brew install sfml # macOS
-choco install sfml # Windows (via Chocolatey)
-```
-
-### **2. Clone the Repository**
-```sh
-git clone https://github.com/yourusername/sfml-falling-game.git
-cd sfml-falling-game
-```
-
-### **3. Compile and Run**
-Compile the project using `g++` and run the game:
-```sh
-g++ -o game main.cpp Game.cpp -lsfml-graphics -lsfml-window -lsfml-system
-./game
-```
-If using **CMake**, configure and build:
-```sh
-mkdir build && cd build
-cmake ..
-make
-./game
-```
-
----
-
-## 🎮 **Gameplay Instructions**
-- **Objective**: Click on falling objects to score points before they reach the ground.  
-- **Controls**:
-  - 🖱️ **Left Mouse Click**: Click objects to gain points.  
-  - ⬅️➡️ **Arrow Keys**: Move the basket (if enabled in the game).  
-- **Scoring System**:
-  - ✅ Successfully clicking objects increases your score.  
-  - ❌ Missing objects reduces your health.  
-  - ❤️ If health reaches 0, the game ends.
-
----
-
-## 📂 **Project Structure**
-```plaintext
+```text
 .
-├── main.cpp       # Game loop and main execution file
-├── Game.cpp       # Game logic and rendering functions
-├── Game.h         # Header file for Game class
-├── database/      # Directory to store high-score data
-├── Fonts/         # Directory for font files
-├── README.md      # Project documentation
+├── apps
+│   ├── native
+│   │   ├── src/            # C++ source files (SFML)
+│   │   ├── include/        # C++ headers
+│   │   ├── assets/         # Fonts, sounds, textures
+│   │   └── data/           # Score/leaderboard files
+│   └── web
+│       └── site/           # Files deployed to GitHub Pages
+├── third_party
+│   ├── sfml-macos/         # Local SFML frameworks for macOS
+│   └── sfml-web/           # Reserved for web SFML experiments
+├── .github/workflows
+│   ├── cmake-single-platform.yml  # Native CI
+│   └── pages.yml                  # GitHub Pages deploy
+├── CMakeLists.txt
+└── build.sh
 ```
 
----
+## Native Build (SFML)
 
-## 🤝 **Contributing**
-Want to enhance the game? Follow these steps:
-1. Fork the repository.  
-2. Create a feature branch:  
-   ```sh
-   git checkout -b feature-name
-   ```  
-3. Commit and push changes:  
-   ```sh
-   git commit -m "Add new feature"
-   git push origin feature-name
-   ```  
-4. Submit a pull request.  
+### macOS
+This repository uses local frameworks from `third_party/sfml-macos`.
 
----
+```bash
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --config Release
+./build/bin/FallingFury
+```
 
-## 📜 **License**
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+### Linux
+Install SFML first:
 
----
+```bash
+sudo apt-get update
+sudo apt-get install -y libsfml-dev
+```
 
-## 📧 **Contact**
-**Author**: Tamim Orif  
-**GitHub**: [tamimorif](https://github.com/tamimorif/Falling-Fury)  
+Then build:
 
-For suggestions or collaborations, feel free to reach out! 🚀
+```bash
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --config Release
+./build/bin/FallingFury
+```
+
+## Web Deployment (GitHub Pages)
+
+1. In GitHub repo settings, open **Pages**.
+2. Set **Build and deployment** source to **GitHub Actions**.
+3. Push to `main`.
+
+The workflow `.github/workflows/pages.yml` publishes `apps/web/site` automatically.
+
+Project URL format:
+- `https://<username>.github.io/<repo-name>/`
+
+## Important SFML Note
+
+The native desktop game is implemented with SFML in `apps/native`.
+The browser deployment uses a dedicated web runtime in `apps/web/site` so it can run directly on GitHub Pages.
+
+## Quick Start Script
+
+```bash
+./build.sh
+```

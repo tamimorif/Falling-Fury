@@ -1,5 +1,7 @@
 # 🎮 Falling Fury - Professional Game Architecture
 
+> Note (March 2, 2026): folder paths in this document are partially legacy. For current layout, use `apps/native` and `apps/web/site`.
+
 [![C++](https://img.shields.io/badge/C++-17-blue.svg)](https://isocpp.org/)
 [![SFML](https://img.shields.io/badge/SFML-2.5+-green.svg)](https://www.sfml-dev.org/)
 [![CMake](https://img.shields.io/badge/CMake-3.25+-red.svg)](https://cmake.org/)

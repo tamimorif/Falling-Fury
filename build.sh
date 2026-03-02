@@ -1,2 +1,6 @@
-mkdir -p build && cd build
-cmake -DCMAKE_BUILD_TYPE=Debug -DFSANITIZE=address,undefined .. && make && cd bin && ./FallingFury
+#!/usr/bin/env bash
+set -euo pipefail
+
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+cmake --build build --config Debug
+./build/bin/FallingFury

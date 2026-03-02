@@ -1,5 +1,7 @@
 # 📁 Falling Fury - New Organized Structure
 
+> Note (March 2, 2026): this document is historical. The current active layout is `apps/native`, `apps/web/site`, and `third_party`.
+
 ## ✅ Successfully Reorganized!
 
 Your project has been transformed into a professional, organized structure!

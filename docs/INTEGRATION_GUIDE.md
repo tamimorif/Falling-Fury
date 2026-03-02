@@ -1,5 +1,7 @@
 # 🚀 Falling Fury - Quick Integration Guide
 
+> Note (March 2, 2026): this integration guide references older include paths. Current code lives under `apps/native/include` and `apps/native/src`.
+
 This guide shows you how to integrate all the new systems into your existing game.
 
 ---

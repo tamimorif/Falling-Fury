@@ -27,7 +27,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: ./web
+        path: ./apps/web/site
 
   deploy:
     environment:

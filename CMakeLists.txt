@@ -2,6 +2,14 @@
 cmake_minimum_required(VERSION 3.25)
 project(FallingFury VERSION 1.0.0 LANGUAGES CXX)
 
+# Project layout
+set(FALLING_FURY_NATIVE_ROOT "${CMAKE_SOURCE_DIR}/apps/native")
+set(FALLING_FURY_SOURCE_DIR "${FALLING_FURY_NATIVE_ROOT}/src")
+set(FALLING_FURY_INCLUDE_DIR "${FALLING_FURY_NATIVE_ROOT}/include")
+set(FALLING_FURY_ASSETS_DIR "${FALLING_FURY_NATIVE_ROOT}/assets")
+set(FALLING_FURY_DATA_DIR "${FALLING_FURY_NATIVE_ROOT}/data")
+set(FALLING_FURY_SFML_MACOS_ROOT "${CMAKE_SOURCE_DIR}/third_party/sfml-macos")
+
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -21,12 +29,12 @@ endif()
 
 # Header files
 file(GLOB_RECURSE HEADER_FILES
-     "${CMAKE_SOURCE_DIR}/include/*.h"
+     "${FALLING_FURY_INCLUDE_DIR}/*.h"
 )
 
 # Source files
 file(GLOB_RECURSE SOURCE_FILES
-     "${CMAKE_SOURCE_DIR}/src/*.cpp"
+     "${FALLING_FURY_SOURCE_DIR}/*.cpp"
 )
 
 # Create executable
@@ -38,7 +46,7 @@ add_executable(${PROJECT_NAME}
 # Find SFML
 if(APPLE)
     # macOS: Use frameworks from local SFML directory
-    set(SFML_ROOT "${CMAKE_SOURCE_DIR}/SFML")
+    set(SFML_ROOT "${FALLING_FURY_SFML_MACOS_ROOT}")
     set(CMAKE_FRAMEWORK_PATH "${SFML_ROOT}/Frameworks;${SFML_ROOT}/extlibs")
     
     find_library(SFML_GRAPHICS sfml-graphics PATHS "${SFML_ROOT}/Frameworks" NO_DEFAULT_PATH)
@@ -68,7 +76,7 @@ endif()
 # Include directories
 target_include_directories(${PROJECT_NAME} 
     PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
+        ${FALLING_FURY_INCLUDE_DIR}
         ${SFML_INCLUDE_DIR}
 )
 
@@ -103,16 +111,16 @@ target_compile_definitions(${PROJECT_NAME}
 )
 
 # Copy resources to build directory
-file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR}/bin/)
-file(COPY ${CMAKE_SOURCE_DIR}/data DESTINATION ${CMAKE_BINARY_DIR}/bin/)
+file(COPY ${FALLING_FURY_ASSETS_DIR} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
+file(COPY ${FALLING_FURY_DATA_DIR} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
 
 # Create data directory if it doesn't exist
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data)
 
 # Install target
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
-install(DIRECTORY assets DESTINATION bin)
-install(DIRECTORY data DESTINATION bin)
+install(DIRECTORY ${FALLING_FURY_ASSETS_DIR} DESTINATION bin)
+install(DIRECTORY ${FALLING_FURY_DATA_DIR} DESTINATION bin)
 
 # Print configuration summary
 message(STATUS "")
@@ -125,5 +133,7 @@ message(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
 message(STATUS "Source Directory: ${CMAKE_SOURCE_DIR}")
 message(STATUS "Binary Directory: ${CMAKE_BINARY_DIR}")
 message(STATUS "Output Directory: ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+message(STATUS "Native App Root: ${FALLING_FURY_NATIVE_ROOT}")
+message(STATUS "Web App Root: ${CMAKE_SOURCE_DIR}/apps/web/site")
 message(STATUS "====================================")
 message(STATUS "")

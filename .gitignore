@@ -79,10 +79,13 @@ cmake-build-release/
 Thumbs.db
 Desktop.ini
 
-# Game specific - Keep template but ignore actual data
-database/data.txt
-database/leaderboard.txt
-database/*.tmp
+# Game specific - Keep template but ignore runtime score data
+apps/native/data/data.txt
+apps/native/data/leaderboard.txt
+apps/native/data/*.tmp
+legacy/database/data.txt
+legacy/database/leaderboard.txt
+legacy/database/*.tmp
 *.log
 
 # Backup files
