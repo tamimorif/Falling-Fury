@@ -20,6 +20,30 @@ A fun and dynamic game developed using **C++** and **SFML**, where players must 
 
 ---
 
+## 🌐 **Run On GitHub Pages**
+This repository now includes a browser version in `web/` and an automatic GitHub Pages deployment workflow.
+The original C++ SFML game remains the desktop/native build path.
+
+### **1. Enable Pages in repo settings**
+1. Open **Settings** → **Pages** in your GitHub repository.
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+
+### **2. Push to `main`**
+When you push to `main`, GitHub will run:
+- `.github/workflows/pages.yml` to deploy `web/`
+- `.github/workflows/cmake-single-platform.yml` for native C++ CI
+
+### **3. Open your site**
+- Project pages URL: `https://<username>.github.io/<repo-name>/`
+- User/organization pages URL: `https://<username>.github.io/`
+
+### **4. Custom domain (optional)**
+1. Add your domain in **Settings** → **Pages** → **Custom domain**.
+2. Create/update DNS records at your domain provider.
+3. Add a `CNAME` file inside `web/` containing only your domain (example: `game.example.com`).
+
+---
+
 ## 📥 **Installation & Setup**
 ### **1. Install SFML**
 Make sure you have SFML installed on your system. If you don’t, you can install it as follows:
@@ -102,4 +126,3 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 **GitHub**: [tamimorif](https://github.com/tamimorif/Falling-Fury)  
 
 For suggestions or collaborations, feel free to reach out! 🚀
-
