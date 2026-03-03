@@ -3,4 +3,5 @@ set -euo pipefail
 
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 cmake --build build --config Debug
-./build/bin/FallingFury
+cd build/bin
+./FallingFury

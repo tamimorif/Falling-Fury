@@ -223,6 +223,15 @@ FLAC_LIB:FILEPATH=/Users/tamimorif/Documents/GitHub/Falling-Fury/SFML/extlibs/FL
 FREETYPE_LIB:FILEPATH=/Users/tamimorif/Documents/GitHub/Falling-Fury/SFML/extlibs/freetype.framework
 
 //Value Computed by CMake
+FallingFuryWasm_BINARY_DIR:STATIC=/Users/tamimorif/Documents/GitHub/Falling-Fury/cmake-build-debug
+
+//Value Computed by CMake
+FallingFuryWasm_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+FallingFuryWasm_SOURCE_DIR:STATIC=/Users/tamimorif/Documents/GitHub/Falling-Fury
+
+//Value Computed by CMake
 FallingFury_BINARY_DIR:STATIC=/Users/tamimorif/Documents/GitHub/Falling-Fury/cmake-build-debug
 
 //Value Computed by CMake

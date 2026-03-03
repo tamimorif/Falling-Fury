@@ -37,90 +37,123 @@ file(GLOB_RECURSE SOURCE_FILES
      "${FALLING_FURY_SOURCE_DIR}/*.cpp"
 )
 
-# Create executable
-add_executable(${PROJECT_NAME}
-    ${SOURCE_FILES}
-    ${HEADER_FILES}
-)
-
-# Find SFML
-if(APPLE)
-    # macOS: Use frameworks from local SFML directory
-    set(SFML_ROOT "${FALLING_FURY_SFML_MACOS_ROOT}")
-    set(CMAKE_FRAMEWORK_PATH "${SFML_ROOT}/Frameworks;${SFML_ROOT}/extlibs")
+if(EMSCRIPTEN)
+    add_executable(${PROJECT_NAME}Wasm ${SOURCE_FILES} ${HEADER_FILES})
     
-    find_library(SFML_GRAPHICS sfml-graphics PATHS "${SFML_ROOT}/Frameworks" NO_DEFAULT_PATH)
-    find_library(SFML_WINDOW sfml-window PATHS "${SFML_ROOT}/Frameworks" NO_DEFAULT_PATH)
-    find_library(SFML_SYSTEM sfml-system PATHS "${SFML_ROOT}/Frameworks" NO_DEFAULT_PATH)
-    find_library(SFML_AUDIO sfml-audio PATHS "${SFML_ROOT}/Frameworks" NO_DEFAULT_PATH)
-    
-    # Find extlibs (dependencies)
-    find_library(FREETYPE_LIB freetype PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
-    find_library(OGG_LIB ogg PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
-    find_library(VORBIS_LIB vorbis PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
-    find_library(VORBISENC_LIB vorbisenc PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
-    find_library(VORBISFILE_LIB vorbisfile PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
-    find_library(FLAC_LIB FLAC PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
-    find_library(OPENAL_LIB OpenAL PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
-    
-    set(SFML_LIBRARIES ${SFML_GRAPHICS} ${SFML_WINDOW} ${SFML_SYSTEM} ${SFML_AUDIO})
-    set(SFML_INCLUDE_DIR "${SFML_ROOT}/include")
-    
-    message(STATUS "Using local SFML frameworks from: ${SFML_ROOT}")
-else()
-    # Linux/Windows: Use find_package
-    find_package(SFML 2.5 COMPONENTS graphics window system audio REQUIRED)
-    set(SFML_LIBRARIES sfml-graphics sfml-window sfml-system sfml-audio)
-endif()
-
-# Include directories
-target_include_directories(${PROJECT_NAME} 
-    PRIVATE
+    # Include SFML headers from our custom build
+    target_include_directories(${PROJECT_NAME}Wasm PRIVATE
         ${FALLING_FURY_INCLUDE_DIR}
-        ${SFML_INCLUDE_DIR}
-)
-
-# Link libraries
-target_link_libraries(${PROJECT_NAME} 
-    PRIVATE
-        ${SFML_LIBRARIES}
-)
-
-# macOS: Set rpath to find frameworks at runtime
-if(APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        BUILD_WITH_INSTALL_RPATH TRUE
-        INSTALL_RPATH "@executable_path/Frameworks;@loader_path/Frameworks"
-        INSTALL_RPATH_USE_LINK_PATH TRUE
+        ${CMAKE_SOURCE_DIR}/third_party/sfml-emcc/include
     )
     
-    # Copy SFML frameworks and extlibs to build directory
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/bin/Frameworks
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${SFML_ROOT}/Frameworks ${CMAKE_BINARY_DIR}/bin/Frameworks
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${SFML_ROOT}/extlibs ${CMAKE_BINARY_DIR}/bin/Frameworks
-        COMMENT "Copying SFML frameworks and dependencies to build directory"
+    # Link against the static libraries we just built
+    target_link_directories(${PROJECT_NAME}Wasm PRIVATE
+        ${CMAKE_SOURCE_DIR}/third_party/sfml-emcc/build/lib
     )
+    
+    # The correct order is crucial for static linking
+    target_link_libraries(${PROJECT_NAME}Wasm PRIVATE
+        sfml-graphics-s
+        sfml-window-s
+        sfml-audio-s
+        sfml-system-s
+    )
+    
+    # Setup Emscripten specific flags
+    set_target_properties(${PROJECT_NAME}Wasm PROPERTIES SUFFIX ".js")
+    
+    set(EMCC_FLAGS "-s USE_WEBGL2=1 -s FULL_ES3=1 -s USE_GLFW=3 -s USE_FREETYPE=1 -s USE_VORBIS=1 -s USE_OGG=1")
+    # Allow memory growth, specify preload files
+    set(EMCC_LINK_FLAGS "${EMCC_FLAGS} -s ALLOW_MEMORY_GROWTH=1 -s EXPORTED_RUNTIME_METHODS=['ccall','cwrap'] --preload-file ${FALLING_FURY_ASSETS_DIR}@/assets")
+    
+    set_target_properties(${PROJECT_NAME}Wasm PROPERTIES LINK_FLAGS "${EMCC_LINK_FLAGS}")
+    target_compile_options(${PROJECT_NAME}Wasm PRIVATE "-sUSE_WEBGL2=1" "-sFULL_ES3=1" "-sUSE_GLFW=3" "-sUSE_FREETYPE=1")
+else()
+    # Create executable
+    add_executable(${PROJECT_NAME}
+        ${SOURCE_FILES}
+        ${HEADER_FILES}
+    )
+
+    # Find SFML
+    if(APPLE)
+        # macOS: Use frameworks from local SFML directory
+        set(SFML_ROOT "${FALLING_FURY_SFML_MACOS_ROOT}")
+        set(CMAKE_FRAMEWORK_PATH "${SFML_ROOT}/Frameworks;${SFML_ROOT}/extlibs")
+        
+        find_library(SFML_GRAPHICS sfml-graphics PATHS "${SFML_ROOT}/Frameworks" NO_DEFAULT_PATH)
+        find_library(SFML_WINDOW sfml-window PATHS "${SFML_ROOT}/Frameworks" NO_DEFAULT_PATH)
+        find_library(SFML_SYSTEM sfml-system PATHS "${SFML_ROOT}/Frameworks" NO_DEFAULT_PATH)
+        find_library(SFML_AUDIO sfml-audio PATHS "${SFML_ROOT}/Frameworks" NO_DEFAULT_PATH)
+        
+        # Find extlibs (dependencies)
+        find_library(FREETYPE_LIB freetype PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
+        find_library(OGG_LIB ogg PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
+        find_library(VORBIS_LIB vorbis PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
+        find_library(VORBISENC_LIB vorbisenc PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
+        find_library(VORBISFILE_LIB vorbisfile PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
+        find_library(FLAC_LIB FLAC PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
+        find_library(OPENAL_LIB OpenAL PATHS "${SFML_ROOT}/extlibs" NO_DEFAULT_PATH)
+        
+        set(SFML_LIBRARIES ${SFML_GRAPHICS} ${SFML_WINDOW} ${SFML_SYSTEM} ${SFML_AUDIO})
+        set(SFML_INCLUDE_DIR "${SFML_ROOT}/include")
+        
+        message(STATUS "Using local SFML frameworks from: ${SFML_ROOT}")
+    else()
+        # Linux/Windows: Use find_package
+        find_package(SFML 2.5 COMPONENTS graphics window system audio REQUIRED)
+        set(SFML_LIBRARIES sfml-graphics sfml-window sfml-system sfml-audio)
+    endif()
+
+    # Include directories
+    target_include_directories(${PROJECT_NAME} 
+        PRIVATE
+            ${FALLING_FURY_INCLUDE_DIR}
+            ${SFML_INCLUDE_DIR}
+    )
+
+    # Link libraries
+    target_link_libraries(${PROJECT_NAME} 
+        PRIVATE
+            ${SFML_LIBRARIES}
+    )
+
+    # macOS: Set rpath to find frameworks at runtime
+    if(APPLE)
+        set_target_properties(${PROJECT_NAME} PROPERTIES
+            BUILD_WITH_INSTALL_RPATH TRUE
+            INSTALL_RPATH "@executable_path/Frameworks;@loader_path/Frameworks"
+            INSTALL_RPATH_USE_LINK_PATH TRUE
+        )
+        
+        # Copy SFML frameworks and extlibs to build directory
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/bin/Frameworks
+            COMMAND ${CMAKE_COMMAND} -E copy_directory ${SFML_ROOT}/Frameworks ${CMAKE_BINARY_DIR}/bin/Frameworks
+            COMMAND ${CMAKE_COMMAND} -E copy_directory ${SFML_ROOT}/extlibs ${CMAKE_BINARY_DIR}/bin/Frameworks
+            COMMENT "Copying SFML frameworks and dependencies to build directory"
+        )
+    endif()
+
+    # Compile definitions
+    target_compile_definitions(${PROJECT_NAME}
+        PRIVATE
+            $<$<CONFIG:Debug>:DEBUG_MODE>
+            $<$<CONFIG:Release>:RELEASE_MODE>
+    )
+
+    # Copy resources to build directory
+    file(COPY ${FALLING_FURY_ASSETS_DIR} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
+    file(COPY ${FALLING_FURY_DATA_DIR} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
+
+    # Create data directory if it doesn't exist
+    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data)
+
+    # Install target
+    install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+    install(DIRECTORY ${FALLING_FURY_ASSETS_DIR} DESTINATION bin)
+    install(DIRECTORY ${FALLING_FURY_DATA_DIR} DESTINATION bin)
 endif()
-
-# Compile definitions
-target_compile_definitions(${PROJECT_NAME}
-    PRIVATE
-        $<$<CONFIG:Debug>:DEBUG_MODE>
-        $<$<CONFIG:Release>:RELEASE_MODE>
-)
-
-# Copy resources to build directory
-file(COPY ${FALLING_FURY_ASSETS_DIR} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
-file(COPY ${FALLING_FURY_DATA_DIR} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
-
-# Create data directory if it doesn't exist
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data)
-
-# Install target
-install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
-install(DIRECTORY ${FALLING_FURY_ASSETS_DIR} DESTINATION bin)
-install(DIRECTORY ${FALLING_FURY_DATA_DIR} DESTINATION bin)
 
 # Print configuration summary
 message(STATUS "")
