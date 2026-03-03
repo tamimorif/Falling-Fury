@@ -62,12 +62,12 @@ if(EMSCRIPTEN)
     # Setup Emscripten specific flags
     set_target_properties(${PROJECT_NAME}Wasm PROPERTIES SUFFIX ".js")
     
-    set(EMCC_FLAGS "-s USE_WEBGL2=1 -s FULL_ES3=1 -s USE_GLFW=3 -s USE_FREETYPE=1 -s USE_VORBIS=1 -s USE_OGG=1")
+    set(EMCC_FLAGS "-s USE_WEBGL2=1 -s FULL_ES3=1 -s USE_GLFW=3 -s USE_FREETYPE=1 -s USE_VORBIS=1 -s USE_OGG=1 -s ASYNCIFY=1")
     # Allow memory growth, specify preload files
     set(EMCC_LINK_FLAGS "${EMCC_FLAGS} -s ALLOW_MEMORY_GROWTH=1 -s EXPORTED_RUNTIME_METHODS=['ccall','cwrap'] --preload-file ${FALLING_FURY_ASSETS_DIR}@/assets")
     
     set_target_properties(${PROJECT_NAME}Wasm PROPERTIES LINK_FLAGS "${EMCC_LINK_FLAGS}")
-    target_compile_options(${PROJECT_NAME}Wasm PRIVATE "-sUSE_WEBGL2=1" "-sFULL_ES3=1" "-sUSE_GLFW=3" "-sUSE_FREETYPE=1")
+    target_compile_options(${PROJECT_NAME}Wasm PRIVATE "-sUSE_WEBGL2=1" "-sFULL_ES3=1" "-sUSE_GLFW=3" "-sUSE_FREETYPE=1" "-sASYNCIFY")
 else()
     # Create executable
     add_executable(${PROJECT_NAME}
