@@ -19,7 +19,7 @@ class Game {
     // Local variable: variableName;
     // Global variable: mVariableName;
     // CONSTANT variable: MAX_ENEMIES
-    static const int WINDOW_HEIGH = 1000;
+    static const int WINDOW_HEIGH = 700;
     static const int WINDOW_WIDTH = 1000;
 
    private:
@@ -36,6 +36,7 @@ class Game {
     // Text
     sf::Text mUiText;
     sf::Text mMaxpointText;
+    sf::Text mRestartText;
 
     // Game Logic
     unsigned mMaxPoint;
@@ -47,7 +48,7 @@ class Game {
     const int MAX_ENEMIES = 30;
     bool mMouseHeld;
     bool mEndGame;
-    float mGravity = 200.f;  // Pixels per second
+    float mGravity = 120.f;  // Pixels per second
     unsigned mDistance = 0;
 
     // Delta Time

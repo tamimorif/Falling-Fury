@@ -10,8 +10,8 @@ Game::Game()
       mMaxPoint(0),
       mHealth(10),
       mEndGame(false),
-      mEnemySpawnTimerMax(10.f),
-      mEnemySpawnTimer(10.f),
+      mEnemySpawnTimerMax(40.f),
+      mEnemySpawnTimer(40.f),
       mMouseHeld(false) {
 #ifdef __EMSCRIPTEN__
     mWindow->setFramerateLimit(0);
@@ -61,15 +61,16 @@ void Game::updateDeltaTime() {
 }
 
 void Game::render() {
-    mWindow->clear();
+    mWindow->clear(sf::Color(30, 30, 42));
 
     renderEnemies();
 
     renderText();
 
-    if (mHealth <= 0) {
-        mWindow->clear();
+    if (mEndGame) {
+        mWindow->clear(sf::Color(20, 20, 25));
         renderMaxPoint();
+        mWindow->draw(mRestartText);
     }
 
     mWindow->display();
@@ -111,6 +112,10 @@ void Game::updateEnemies() {
         if (mEnemies[i].getPosition().y > mWindow->getSize().y) {
             mHealth--;
             mEnemies.erase(mEnemies.begin() + i);
+            if (mHealth <= 0) {
+                mEndGame = true;
+                saveData();
+            }
         }
     }
     // Check if clicked upon
@@ -156,6 +161,12 @@ void Game::initText() {
     mUiText.setFillColor(sf::Color::Cyan);
     mUiText.setPosition(170.f, 30.f);
     mUiText.setString("NONE");
+
+    mRestartText.setFont(ResourceManager::getInstance().getFont("main"));
+    mRestartText.setCharacterSize(40);
+    mRestartText.setFillColor(sf::Color::White);
+    mRestartText.setPosition((mWindow->getSize().x / 2.f) - 130.f, (mWindow->getSize().y / 2.f) + 50.f);
+    mRestartText.setString("Press ENTER to Restart");
 }
 
 void Game::initMaxPoint() {
@@ -229,6 +240,14 @@ void Game::pollEvent() {
             mWindow->close();
         else if (mEvent.type == sf::Event::KeyPressed) {
             if (mEvent.key.code == sf::Keyboard::Escape) mWindow->close();
+            if (mEvent.key.code == sf::Keyboard::Enter && mEndGame) {
+                mHealth = 10;
+                mPoints = 0;
+                mEnemies.clear();
+                mEndGame = false;
+                mEnemySpawnTimer = mEnemySpawnTimerMax;
+                getData(); // Refresh max points explicitly
+            }
         }
     }
 }

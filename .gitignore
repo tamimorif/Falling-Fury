@@ -1,8 +1,7 @@
 # Falling Fury - .gitignore
 
 # Build directories
-build/
-**/build/
+build*/
 cmake-build-*/
 bin/
 lib/
