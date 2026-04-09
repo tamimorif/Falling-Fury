@@ -1,4 +1,4 @@
-# Falling Fury - .gitignore
+# Falling Fury — .gitignore
 
 # Build directories
 build*/
@@ -7,7 +7,7 @@ bin/
 lib/
 out/
 
-# CMake generated files
+# CMake generated
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
@@ -19,24 +19,15 @@ CTestTestfile.cmake
 compile_commands.json
 .cache/
 
-# IDE specific files
-# Visual Studio Code
+# IDE files
 .vscode/
-*.code-workspace
-
-# CLion / IntelliJ
 .idea/
-cmake-build-debug/
-cmake-build-release/
-
-# Visual Studio
+*.code-workspace
 .vs/
 *.sln
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user
+*.vcxproj*
 
-# Compiled Object files
+# Compiled objects
 *.d
 *.slo
 *.lo
@@ -44,20 +35,16 @@ cmake-build-release/
 *.obj
 *.elf
 
-# Precompiled Headers
+# Precompiled headers
 *.gch
 *.pch
 
-# Compiled Dynamic libraries
+# Dynamic libraries
 *.so
 *.dylib
 *.dll
 
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
+# Static libraries
 *.lai
 *.la
 *.a
@@ -78,13 +65,14 @@ cmake-build-release/
 Thumbs.db
 Desktop.ini
 
-# Game specific - Keep template but ignore runtime score data
+# Legacy / docs (removed from repo)
+legacy/
+docs/
+
+# Runtime data
 apps/native/data/data.txt
 apps/native/data/leaderboard.txt
 apps/native/data/*.tmp
-legacy/database/data.txt
-legacy/database/leaderboard.txt
-legacy/database/*.tmp
 *.log
 
 # Backup files

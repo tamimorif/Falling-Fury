@@ -3,16 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Falling Fury</title>
+    <title>Falling Fury — Arcade Clicker Game</title>
     <meta
       name="description"
-      content="Click falling targets before they hit the floor. Protect your health and beat your high score!"
+      content="Click falling targets before they hit the floor. Build combos, survive waves, and chase the high score!"
     />
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-      crossorigin
-    />
+    <!-- Open Graph -->
+    <meta property="og:title" content="Falling Fury" />
+    <meta property="og:description" content="A fast-paced arcade clicker. Click the falling targets before they escape!" />
+    <meta property="og:type" content="website" />
+    <!-- Inline SVG Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💎</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap"
       rel="stylesheet"
@@ -22,12 +24,18 @@
   <body>
     <main class="page" id="page">
       <header class="hud">
-        <h1>Falling Fury</h1>
+        <div class="title-row">
+          <h1>Falling Fury</h1>
+          <span class="wave-badge" id="wave-badge">Wave 1</span>
+        </div>
         <p class="subtitle">Click the falling targets before they escape!</p>
         <div class="stats">
           <div class="stat-card stat-health">
             <span class="label">Health</span>
-            <span id="health" class="value">10</span>
+            <div class="health-bar-wrap">
+              <div class="health-bar" id="health-bar"></div>
+            </div>
+            <span id="health" class="value health-value">10</span>
           </div>
           <div class="stat-card stat-score">
             <span class="label">Score</span>
@@ -40,17 +48,36 @@
         </div>
       </header>
 
-      <section class="arena-wrap">
-        <canvas id="game-canvas" width="780" height="460" aria-label="Game canvas"></canvas>
-        <div id="game-over" class="game-over hidden">
-          <h2>Game Over</h2>
-          <p id="final-score-line">Your score: 0</p>
+      <section class="arena-wrap" id="arena-wrap">
+        <canvas id="game-canvas" aria-label="Game canvas"></canvas>
+
+        <!-- Combo display -->
+        <div id="combo-display" class="combo-display hidden">
+          <span id="combo-text" class="combo-text">x2 Combo!</span>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="overlay">
+          <h2 class="start-title">Falling Fury</h2>
+          <p class="start-sub">Click targets. Survive waves. Beat your score.</p>
+          <div class="legend">
+            <span class="legend-item"><span class="dot dot-green"></span> +1 pt</span>
+            <span class="legend-item"><span class="dot dot-red"></span> Danger! +3 pts</span>
+          </div>
+          <button id="start-btn" type="button">Start Game</button>
+        </div>
+
+        <!-- Game Over -->
+        <div id="game-over" class="overlay hidden">
+          <h2 class="go-title">Game Over</h2>
+          <p id="final-score-line" class="go-score">Your score: 0</p>
+          <p id="new-high" class="new-high hidden">🏆 New High Score!</p>
           <button id="restart-btn" type="button">Play Again</button>
         </div>
       </section>
 
       <footer class="footer">
-        <p>Built with C++ &amp; WebAssembly &bull; <a href="https://github.com/tamimorif/Falling-Fury" target="_blank" rel="noopener">View Source</a></p>
+        <p>&copy; 2026 Falling Fury &bull; <a href="https://github.com/tamimorif/Falling-Fury" target="_blank" rel="noopener">View Source</a></p>
       </footer>
     </main>
 
