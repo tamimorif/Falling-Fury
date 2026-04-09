@@ -143,16 +143,26 @@ else()
     )
 
     # Copy resources to build directory
-    file(COPY ${FALLING_FURY_ASSETS_DIR} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
-    file(COPY ${FALLING_FURY_DATA_DIR} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
+    if(EXISTS ${FALLING_FURY_ASSETS_DIR})
+        file(COPY ${FALLING_FURY_ASSETS_DIR} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
+    endif()
+    
+    if(EXISTS ${FALLING_FURY_DATA_DIR})
+        file(COPY ${FALLING_FURY_DATA_DIR} DESTINATION ${CMAKE_BINARY_DIR}/bin/)
+    endif()
 
     # Create data directory if it doesn't exist
     file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/data)
 
     # Install target
     install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
-    install(DIRECTORY ${FALLING_FURY_ASSETS_DIR} DESTINATION bin)
-    install(DIRECTORY ${FALLING_FURY_DATA_DIR} DESTINATION bin)
+    if(EXISTS ${FALLING_FURY_ASSETS_DIR})
+        install(DIRECTORY ${FALLING_FURY_ASSETS_DIR} DESTINATION bin)
+    endif()
+    
+    if(EXISTS ${FALLING_FURY_DATA_DIR})
+        install(DIRECTORY ${FALLING_FURY_DATA_DIR} DESTINATION bin)
+    endif()
 endif()
 
 # Print configuration summary
