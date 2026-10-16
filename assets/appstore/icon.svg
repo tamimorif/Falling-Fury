@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <!-- Background: Falling Fury dark purple gradient -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0a1a"/>
+      <stop offset="0.48" stop-color="#131136"/>
+      <stop offset="1" stop-color="#1c1a3a"/>
+    </linearGradient>
+    <!-- Top-left lilac ambient wash -->
+    <radialGradient id="tlGlow" cx="0.16" cy="0.1" r="0.75">
+      <stop offset="0" stop-color="#a78bfa" stop-opacity="0.20"/>
+      <stop offset="0.5" stop-color="#a78bfa" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#a78bfa" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Corner vignette for depth -->
+    <radialGradient id="vig" cx="0.5" cy="0.44" r="0.78">
+      <stop offset="0.5" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.38"/>
+    </radialGradient>
+    <!-- Soft lilac glow behind the gem -->
+    <radialGradient id="gemGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#a78bfa" stop-opacity="0.40"/>
+      <stop offset="0.55" stop-color="#a78bfa" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#a78bfa" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Facet sheen overlays (light from top-left) -->
+    <linearGradient id="tableHL" x1="0.05" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.32"/>
+      <stop offset="0.55" stop-color="#ffffff" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="crownHL" x1="0" y1="0" x2="0.65" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.45"/>
+      <stop offset="0.6" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glint" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="0.4" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Directional outer edge: mint rim light top-left -> deep emerald bottom-right -->
+    <linearGradient id="edge" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#d1fae5"/>
+      <stop offset="0.3" stop-color="#34d399"/>
+      <stop offset="0.62" stop-color="#059669"/>
+      <stop offset="1" stop-color="#065f46"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Opaque background -->
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#tlGlow)"/>
+  <rect width="1024" height="1024" fill="url(#vig)"/>
+
+  <!-- Lilac glow -->
+  <ellipse cx="512" cy="575" rx="480" ry="445" fill="url(#gemGlow)"/>
+
+  <!-- Faceted emerald diamond (gem bbox 680x580, center at 512,570) -->
+  <g id="gem" transform="translate(512,530)">
+    <!-- table -->
+    <polygon points="-160,-250 160,-250 150,-120 -150,-120" fill="#6ee7b7"/>
+    <!-- left crown -->
+    <polygon points="-160,-250 -150,-120 -340,-40" fill="#34d399"/>
+    <!-- right crown -->
+    <polygon points="160,-250 340,-40 150,-120" fill="#10b981"/>
+    <!-- pavilion left -->
+    <polygon points="-150,-120 -340,-40 0,330" fill="#059669"/>
+    <!-- pavilion center -->
+    <polygon points="-150,-120 0,330 150,-120" fill="#10b981"/>
+    <!-- pavilion right -->
+    <polygon points="150,-120 0,330 340,-40" fill="#047857"/>
+    <!-- facet edges -->
+    <path d="M -160 -250 L -150 -120 L -340 -40 M 160 -250 L 150 -120 L 340 -40 M -150 -120 L 150 -120 M -150 -120 L 0 330 M 150 -120 L 0 330"
+          fill="none" stroke="#065f46" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+    <!-- top-left facet highlight + specular glint -->
+    <polygon points="-160,-250 160,-250 150,-120 -150,-120" fill="url(#tableHL)"/>
+    <polygon points="-160,-250 -150,-120 -340,-40" fill="url(#crownHL)"/>
+    <ellipse cx="-118" cy="-214" rx="66" ry="30" fill="url(#glint)" transform="rotate(-24 -118 -214)"/>
+    <!-- outer silhouette with directional rim light -->
+    <path d="M -160 -250 L 160 -250 L 340 -40 L 0 330 L -340 -40 Z"
+          fill="none" stroke="url(#edge)" stroke-width="20" stroke-linejoin="round"/>
+  </g>
+</svg>
