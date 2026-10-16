@@ -1,0 +1,11 @@
+# Falling Fury — Android (Capacitor) package
+
+node_modules/
+
+# Release signing credentials — NEVER commit these
+android/keystore.properties
+*.jks
+*.keystore
+
+# macOS
+.DS_Store

@@ -1,0 +1,13 @@
+# Falling Fury — iOS (Capacitor) package
+# Note: the fallback `www/` directory is NOT used — webDir points at ../web/site.
+
+node_modules/
+
+# Native build artifacts
+ios/App/Pods/
+ios/App/App/public/
+ios/App/build/
+ios/DerivedData/
+
+# macOS
+.DS_Store

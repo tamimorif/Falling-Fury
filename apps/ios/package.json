@@ -1,0 +1,23 @@
+{
+  "name": "falling-fury-ios",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Capacitor iOS wrapper for the Falling Fury HTML5 game",
+  "scripts": {
+    "sync": "cap sync ios",
+    "copy": "cap copy ios",
+    "open": "cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/ios": "^8.5.3",
+    "@capacitor/share": "^8.0.3",
+    "@capacitor/status-bar": "^8.0.4"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}

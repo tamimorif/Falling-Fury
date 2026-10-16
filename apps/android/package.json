@@ -1,0 +1,31 @@
+{
+  "name": "falling-fury-android",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Capacitor Android wrapper for the Falling Fury HTML5 game",
+  "scripts": {
+    "sync": "cap sync android",
+    "copy": "cap copy android",
+    "open": "cap open android",
+    "assets": "capacitor-assets generate --android && node scripts/patch-adaptive-icons.mjs",
+    "bundle": "cd android && ./gradlew bundleRelease",
+    "apk": "cd android && ./gradlew assembleRelease",
+    "apk:debug": "cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/share": "^8.0.3",
+    "@capacitor/status-bar": "^8.0.4"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "typescript": "^7.0.2"
+  },
+  "allowScripts": {
+    "sharp@0.32.6": true
+  }
+}

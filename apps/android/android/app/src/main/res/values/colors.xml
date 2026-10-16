@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Falling Fury brand palette (matches apps/web/site/styles.css) -->
+    <color name="colorPrimary">#a78bfa</color>
+    <color name="colorPrimaryDark">#0b0a1a</color>
+    <color name="colorAccent">#a78bfa</color>
+    <color name="splashBackground">#0b0a1a</color>
+</resources>
