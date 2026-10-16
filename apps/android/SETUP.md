@@ -116,5 +116,8 @@ Full instructions for shipping to Google Play: `docs/playstore/checklist.md`.
   JDK 21 set) and rebuild.
 - **Unsigned AAB** → `apps/android/android/keystore.properties` is missing or unreadable.
   Restore it from your backup (and confirm `storeFile` points at the keystore).
+- **`Failed file name validation` for `* 2.png`** → stale macOS-duplicate artifacts inside
+  `android/app/build/intermediates/` (regenerable). Run `./gradlew clean` from
+  `apps/android/android` (with JDK 21 set) and rebuild.
 - **`cap` complains about TypeScript** → keep `typescript` in `devDependencies`
   (required to read `capacitor.config.ts`).
