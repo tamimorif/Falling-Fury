@@ -2,7 +2,7 @@
 
 A fast-paced arcade clicker game — tap the falling targets before they escape the arena!
 
-**[▶ Play Now](https://tamimorif.github.io/Falling-Fury/)** · iOS (App Store) & Android (Google Play) builds in progress
+**[▶ Play Now](https://tamimorif.github.io/Falling-Fury/)** · iOS App Store preparation in progress · Android (Google Play) build in progress
 
 ## Gameplay
 
@@ -24,7 +24,8 @@ A fast-paced arcade clicker game — tap the falling targets before they escape 
 - Procedural sound effects (Web Audio API — no external audio files)
 - Native iOS haptics + share sheet through the Capacitor bridge (no-op on web)
 - High score saved in `localStorage`
-- Fully offline — zero external network dependencies (fonts are self-hosted)
+- Optional iOS Game Center sign-in, top 10, and your rank on the opening screen
+- Core gameplay is offline; the optional iOS Game Center leaderboard needs an internet connection
 
 ## Project Structure
 
@@ -73,12 +74,19 @@ npx cap sync ios        # copies ../web/site into the app
 npx cap open ios        # opens the Xcode project
 ```
 
-Then: pick your signing Team, drop `assets/appstore/icon-1024.png` into
-`ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png`, and
-Product ▸ Archive ▸ Distribute App ▸ App Store Connect.
+Then: pick your Apple Developer **signing Team** in Xcode and
+Product ▸ Archive ▸ Distribute App ▸ App Store Connect. The production icon
+(`assets/appstore/icon-1024.png`), the five 6.9" screenshots
+(`assets/appstore/screenshots/`), and the app-level privacy manifest are in place.
+A Release build has been verified without distribution signing; the app still
+needs a signed upload, physical-device Game Center verification, and refreshed
+screenshots. App Store Connect privacy answers and review contact details are
+saved; the category and age rating are also set.
 
-Full step-by-step (listing copy, screenshots, privacy answers):
-[`docs/appstore/checklist.md`](docs/appstore/checklist.md)
+See the checklist for the remaining signing, build upload, screenshot, and
+physical-device verification steps:
+[`docs/appstore/checklist.md`](docs/appstore/checklist.md) ·
+[`docs/appstore/runbook.md`](docs/appstore/runbook.md)
 
 After any change to `apps/web/site`, re-run `npm run copy` (or `npx cap copy ios`)
 so the native app picks up the new files. (Android: `npx cap copy android`.)

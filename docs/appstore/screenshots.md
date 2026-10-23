@@ -1,5 +1,25 @@
 # Falling Fury — App Store Screenshots
 
+## Final set (committed 2026-10-17)
+
+The required 6.9" set is ready in [`assets/appstore/screenshots/`](../assets/appstore/screenshots/):
+
+| File | Shot | Caption |
+|---|---|---|
+| `01-start.png` | Start screen | *Tap targets. Survive waves. Beat your score.* |
+| `02-early-game.png` | Early gameplay | *Green gems score and heal — red gems pay triple.* |
+| `03-mid-game-combo.png` | Combo + danger | *Chain fast taps for x2 … x5 combo multipliers.* |
+| `04-wave-surge.png` | Wave 5 / surge | *Every wave is faster. How long can you last?* |
+| `05-gameover.png` | New high score | *New high score! One more run?* |
+
+All five are **1320 × 2868**, RGB, no alpha, no device frames or added text. They were
+rendered from the exact web build that ships in the app, at 440 × 956 CSS pixels with a
+3× device pixel ratio and iPhone Pro Max safe-area insets.
+
+> App Store Connect has **no per-screenshot caption field**. The captions above are the
+> intended messaging/order; they are not typed into App Store Connect. If you want caption
+> text on the images themselves, add it to the PNGs before uploading.
+
 ## Required sizes
 
 | Display size | Resolution (portrait) | Required? | Notes |
@@ -10,9 +30,9 @@
 
 Format: PNG or JPG, RGB, no alpha channel, no rounded corners or device frames (Apple applies those). 1–10 screenshots per size. Suggested final storage: `assets/appstore/screenshots/`.
 
-## Capture instructions
+## Capture instructions (only needed when the UI changes)
 
-1. Build and run the app in Xcode: from `apps/ios`, run `npx cap open ios`, select an **iPhone 16 Pro Max** simulator, then Run (⌘R).
+1. Build and run the app in Xcode: from `apps/ios`, run `npx cap open ios`, select an **iPhone 18 Pro Max** simulator (1320 × 2868), then Run (⌘R).
 2. Play to the moment you want, then capture:
    - **Simulator menu:** Device > Save Screen (⌘S) — saves a full-resolution PNG to your Desktop.
    - **Terminal alternative:** `xcrun simctl io booted screenshot shot.png`

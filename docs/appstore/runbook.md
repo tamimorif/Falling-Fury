@@ -61,17 +61,20 @@ xcrun simctl io booted screenshot shot.png
 - [ ] Sound effects play; no console errors
 - Haptics need a real iPhone — verify on TestFlight (step 5)
 
-## 3) Screenshots for the listing (⭐ still to do)
+## 3) Screenshots for the listing (initial set uploaded; refresh required)
 
-App Store Connect needs the **6.9" set: 1320 × 2868** portrait.
-Follow the 5-shot plan + captions in `screenshots.md`. With the game running:
+App Store Connect needs the **6.9" set: 1320 × 2868** portrait. The final five-shot set
+is already in `assets/appstore/screenshots/` (`01-start.png` … `05-gameover.png`), all
+1320 × 2868 RGB PNGs with no alpha. This set was uploaded to App Store Connect before
+the Game Center leaderboard was added, so refresh the opening screen and upload the
+updated images before submission. Captions and the shot plan are in `screenshots.md`.
+
+To re-capture from the simulator with the game running:
 
 ```sh
 xcrun simctl io booted screenshot 01-start.png
 sips -g pixelWidth -g pixelHeight 01-start.png   # must print 1320 / 2868
 ```
-
-Store the final set under `assets/appstore/screenshots/`.
 
 ## 4) Signing (one-time)
 
@@ -89,16 +92,15 @@ Xcode ▸ Settings ▸ Accounts (`tamimarif03@gmail.com`).
 3. Organizer: **Validate App** → **Distribute App ▸ App Store Connect ▸ Upload**
 4. TestFlight: add yourself as an internal tester, install on a real iPhone, and
    re-run the smoke test (haptics!).
-5. [appstoreconnect.apple.com](https://appstoreconnect.apple.com) → **My Apps ▸ + New App**:
-   iOS, “Falling Fury”, bundle ID `com.tamimorif.fallingfury`, SKU e.g. `FALLINGFURY1`.
-6. Paste the listing copy from `listing.md`; category **Games ▸ Arcade**; price **Free**; rating **4+**.
-7. URLs (both verified live):
+5. The app record and version 1.0 listing already exist in App Store Connect; review the saved copy in `listing.md`.
+6. The saved Support, Privacy, and Marketing URLs are:
    - Support `https://tamimorif.github.io/Falling-Fury/support.html`
    - Privacy `https://tamimorif.github.io/Falling-Fury/privacy.html`
    - Marketing `https://tamimorif.github.io/Falling-Fury/`
-8. **App Privacy → "Data Not Collected"**. Export compliance → already declared in `Info.plist` (no encryption).
-9. App Review info: email `tamimarif03@gmail.com` + paste the notes from `review-notes.md`.
-10. Upload the screenshots (step 3), attach the build to version 1.0, **Submit for Review**.
+7. **App Privacy:** published declarations for linked Gameplay Content (scores) and User ID (Game Center player identity); no tracking. If practices change, update these answers and the live privacy policy together.
+8. Export compliance is declared in `Info.plist` (no encryption).
+9. App Review contact name, phone, and email are saved. The review notes are saved; sign-in is marked not required.
+10. Select the Apple Developer signing Team, archive and upload a signed build, then verify Game Center on a physical iPhone before submitting the version and leaderboard for review.
 
 ## 6) Rules for every future update
 
@@ -113,5 +115,12 @@ Xcode ▸ Settings ▸ Accounts (`tamimarif03@gmail.com`).
 - 2026-10-16 — app installed and launched on the **iPhone 18 Pro Max** simulator
   (`com.tamimorif.fallingfury`); start screen renders correctly (screenshot checked,
   1320 × 2868 — the same size the App Store listing needs).
+- 2026-10-17 — **Release** configuration build via `xcodebuild` → **BUILD SUCCEEDED**;
+  the app-level `PrivacyInfo.xcprivacy` is present in the built `.app`.
+- 2026-10-17 — five App Store screenshots generated from the shipped web build at
+  440 × 956 CSS / 3× (1320 × 2868), RGB with no alpha, stored in
+  `assets/appstore/screenshots/`. These predate the Game Center leaderboard and must be refreshed.
+- 2026-10-18 — Release configuration build after adding Game Center → **BUILD SUCCEEDED**
+  with `CODE_SIGNING_ALLOWED=NO`; this verifies compilation only, not an App Store archive or upload.
 - Tip: a screenshot taken within the first ~5 seconds of launch can be a black frame while
   the web view boots — wait a moment or relaunch before capturing.

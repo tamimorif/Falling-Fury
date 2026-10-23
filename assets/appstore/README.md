@@ -11,6 +11,7 @@ stroke `#065f46`), lilac accent `#a78bfa`.
 | `icon.svg` | 1024×1024 vector source of the app icon. Full square (no rounded corners, no alpha, no text) — iOS applies the rounded mask itself. Bold faceted emerald diamond slightly below center, lilac glow, top-left facet highlight. Reads down to 40 px. |
 | `icon-1024.png` | 1024×1024 opaque PNG render of `icon.svg` (App Store icon source). |
 | `splash-2732.png` | 2732×2732 opaque splash/launch background: same background gradient, same diamond logo scaled to ~30 % of the width and centered (819 px gem width). |
+| `screenshots/01-start.png` … `05-gameover.png` | Final App Store 6.9" screenshot set — 1320 × 2868, RGB, no alpha. See `docs/appstore/screenshots.md` for captions and order. |
 | `README.md` | This file. |
 
 ## Where each file goes in Xcode

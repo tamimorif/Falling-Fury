@@ -58,11 +58,21 @@
         <!-- Start Screen -->
         <div id="start-screen" class="overlay">
           <h2 class="start-title">Falling Fury</h2>
+          <p id="player-greeting" class="player-greeting hidden" aria-live="polite"></p>
           <p class="start-sub">Tap targets. Survive waves. Beat your score.</p>
           <div class="legend">
             <span class="legend-item"><span class="dot dot-green"></span> +1 pt</span>
             <span class="legend-item"><span class="dot dot-red"></span> Danger! +3 pts</span>
           </div>
+          <section id="leaderboard-card" class="leaderboard-card hidden" aria-label="Game Center leaderboard">
+            <div class="leaderboard-heading">
+              <h3>Global Top 10</h3>
+              <span>Game Center</span>
+            </div>
+            <ol id="leaderboard-list" class="leaderboard-list"></ol>
+            <p id="leaderboard-you" class="leaderboard-you hidden"></p>
+            <p id="leaderboard-status" class="leaderboard-status" aria-live="polite">Loading scores…</p>
+          </section>
           <button id="start-btn" type="button">Start Game</button>
         </div>
 

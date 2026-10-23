@@ -8,21 +8,22 @@ Paste-ready copy for the v1.0 record. Character limits are enforced by App Store
 |---|---|---|
 | **App Name** | 30 | `Falling Fury` (12) |
 | **Subtitle** | 30 | `Tap the gems before they fall` (29) |
-| **Promotional Text** | 170 | `1.0 is live! Tap falling gems, dodge danger, and stack huge combos. Free, fully offline, no ads — just pure arcade fury. How far can you get?` (141) |
+| **Promotional Text** | 170 | `Tap falling gems, dodge danger, stack combos, and climb the Game Center leaderboard. No ads — just pure arcade fury. How far can you get?` (132) |
 | **Keywords** | 100 | see below |
-| **Primary Category** | — | Games > Arcade |
-| **Secondary Category** | — | Games > Action (optional) |
-| **Age Rating** | — | 4+ |
-| **Price** | — | Free |
+| **Primary Category** | — | Games > Casual (saved in App Store Connect) |
+| **Secondary Category** | — | Not selected |
+| **Age Rating** | — | 13+ in most storefronts; regional equivalents are shown by App Store Connect |
+| **Price** | — | Free (saved) |
+| **Availability** | — | 133 countries or regions; Europe excluded at launch |
 | **Copyright** | — | `© 2026 Falling Fury. All rights reserved.` |
 
-**Keywords** (comma-separated, no spaces, 88/100 chars):
+**Keywords** (comma-separated, no spaces, within the 100-character limit):
 
 ```
-arcade,clicker,tapper,tapgame,gems,diamond,reflex,combo,endless,offline,casual,highscore
+arcade,clicker,tapper,tapgame,gems,diamond,reflex,combo,endless,leaderboard,casual,highscore
 ```
 
-## Description (1539/4000 chars)
+## Description (1524/4000 chars)
 
 Paste as plain text — App Store Connect does not render Markdown.
 
@@ -33,7 +34,7 @@ HOW TO PLAY
 
 - Tap green gems to score a point and heal a little.
 - Red danger gems are worth triple points — but if one slips past you, it hurts twice as much.
-- Chain taps quickly to build combo multipliers (x2, x3, x4) and stack absurd scores.
+- Chain taps quickly to build combo multipliers (x2 up to x5) and stack absurd scores.
 - Miss a gem and you lose health. Run out of health and the run is over.
 - Each wave speeds things up: faster falls, tighter spawns, rising pressure. How long can you last?
 
@@ -46,8 +47,9 @@ FEATURES
 - Haptic feedback on hits and damage on iPhone
 - Smooth 60 fps canvas action with particles, floating score text, and screen shake
 - Punchy chiptune-style sound effects — no headphones required
-- High score saved right on your device, so you always know what to beat
-- Fully offline — no account, no login, no ads, no in-app purchases
+- High score saved on your device and submitted to Apple's Game Center leaderboard when you sign in on iOS
+- Optional Game Center sign-in — no separate account required; core gameplay works offline
+- No ads or in-app purchases
 
 WHY YOU'LL KEEP COMING BACK
 
@@ -56,9 +58,9 @@ Every run is different. Spawns are random, danger gems raise the stakes, and com
 Got 30 seconds or 30 minutes? Falling Fury is pure pick-up-and-play arcade fury. Tap, combo, survive, repeat.
 ```
 
-## Age rating justification (4+)
+## Age rating notes (App Store Connect: 13+)
 
-Abstract falling shapes and diamonds only — no violence, no blood, no language, no user-generated content, no data collection, and no external links inside the app. Qualifies for the 4+ rating.
+The saved questionnaire marks the global Game Center leaderboard as a frequent contest because it regularly ranks players. It also reports infrequent cartoon/fantasy violence and infrequent weapons based on the game's stylized bomb hazards. App Store Connect calculated 13+ for most storefronts and provides regional equivalents. The app has no chat, ads, simulated or real-money gambling, or loot boxes.
 
 ## URLs
 

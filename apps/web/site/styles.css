@@ -262,6 +262,101 @@ body {
   max-width: 300px;
 }
 
+.player-greeting {
+  color: var(--gold);
+  font-size: 0.86rem;
+  font-weight: 700;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-card {
+  width: min(100%, 340px);
+  max-height: min(38vh, 270px);
+  overflow-y: auto;
+  padding: 10px 12px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(167, 139, 250, 0.5) transparent;
+}
+
+.leaderboard-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.leaderboard-heading h3 {
+  font-size: 0.8rem;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.leaderboard-heading span,
+.leaderboard-status {
+  color: var(--text-muted);
+  font-size: 0.66rem;
+}
+
+.leaderboard-list {
+  display: grid;
+  gap: 3px;
+  list-style: none;
+  counter-reset: leaderboard;
+}
+
+.leaderboard-row {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  min-height: 20px;
+  font-size: 0.75rem;
+}
+
+.leaderboard-rank {
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.leaderboard-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.leaderboard-score {
+  color: var(--gold);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.leaderboard-row.is-player .leaderboard-name,
+.leaderboard-row.is-player .leaderboard-rank {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.leaderboard-you {
+  margin-top: 7px;
+  padding-top: 7px;
+  border-top: 1px solid var(--surface-border);
+  color: var(--gold);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.leaderboard-status {
+  padding-top: 5px;
+}
+
 .legend {
   display: flex;
   gap: 20px;
@@ -428,6 +523,10 @@ button {
   .overlay {
     padding: 16px;
     gap: 8px;
+  }
+  .leaderboard-card {
+    max-height: min(34vh, 220px);
+    padding: 8px 10px;
   }
   .legend {
     flex-direction: column;

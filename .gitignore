@@ -6,6 +6,25 @@ cmake-build-*/
 bin/
 lib/
 out/
+.build/
+DerivedData/
+*.xcarchive/
+*.xcresult/
+*.ipa
+*.dSYM/
+Pods/
+
+# Generated Capacitor copies (source of truth is apps/web/site)
+apps/ios/ios/App/App/public/
+apps/android/android/app/src/main/assets/public/
+apps/ios/ios/App/App/capacitor.config.json
+apps/ios/ios/App/App/config.xml
+apps/android/android/app/src/main/assets/capacitor.config.json
+apps/android/android/app/src/main/assets/capacitor.plugins.json
+
+# Vendored SFML docs/templates (~13 MB) — not needed to build; keep local copies
+third_party/sfml-macos/doc/
+third_party/sfml-macos/templates/
 
 # CMake generated
 CMakeCache.txt
@@ -22,10 +41,14 @@ compile_commands.json
 # IDE files
 .vscode/
 .idea/
+.fleet/
 *.code-workspace
 .vs/
 *.sln
 *.vcxproj*
+.swiftpm/
+xcuserdata/
+*.xcuserstate
 
 # Compiled objects
 *.d
@@ -70,12 +93,21 @@ legacy/
 docs/*
 !docs/appstore/
 !docs/playstore/
+!docs/AI_HANDOFF.md
 
-# Runtime data
+# Runtime data / logs
 apps/native/data/data.txt
 apps/native/data/leaderboard.txt
 apps/native/data/*.tmp
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local tooling caches
+.gradle/
+.kotlin/
 
 # Backup files
 *.bak
@@ -88,3 +120,13 @@ apps/native/data/*.tmp
 *.jks
 *.keystore
 keystore.properties
+*.p12
+*.p8
+*.cer
+*.mobileprovision
+*.provisionprofile
+
+# Environment secrets
+.env
+.env.*
+!.env.example

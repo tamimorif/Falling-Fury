@@ -263,6 +263,25 @@
     });
   }
 
+  function gameCenterCall(method, args) {
+    if (!isNativePlatform()) return Promise.resolve(null);
+    var gameCenter = plugin("GameCenter");
+    var result = call(gameCenter, method, args || []);
+    return result && typeof result.then === "function" ? result.catch(function () { return null; }) : Promise.resolve(null);
+  }
+
+  function getLeaderboard() {
+    return gameCenterCall("getLeaderboard");
+  }
+
+  function submitHighScore(score) {
+    var value = toFiniteNumber(score);
+    if (value === null || value < 1) return Promise.resolve(false);
+    return gameCenterCall("submitScore", [{ score: value }]).then(function (result) {
+      return !!(result && result.submitted === true);
+    });
+  }
+
   /* ── Status bar ──────────────────────────────────────────── */
 
   function hideStatusBar() {
@@ -298,7 +317,9 @@
     window.FallingFuryNative = {
       isNative: isNativePlatform(),
       haptic: haptic,
-      shareScore: shareScore
+      shareScore: shareScore,
+      getLeaderboard: getLeaderboard,
+      submitHighScore: submitHighScore
     };
   } catch (_) { /* ignore */ }
 

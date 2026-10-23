@@ -46,6 +46,11 @@
   const arenaWrap    = document.getElementById("arena-wrap");
   const comboDisplay = document.getElementById("combo-display");
   const comboTextEl  = document.getElementById("combo-text");
+  const playerGreetingEl = document.getElementById("player-greeting");
+  const leaderboardCard = document.getElementById("leaderboard-card");
+  const leaderboardList = document.getElementById("leaderboard-list");
+  const leaderboardYou = document.getElementById("leaderboard-you");
+  const leaderboardStatus = document.getElementById("leaderboard-status");
 
   /* ════════════════════════════════════════════════
      Utility
@@ -88,6 +93,60 @@
     const bridge = window.FallingFuryNative;
     if (bridge && typeof bridge.haptic === "function") {
       try { bridge.haptic(name); } catch (_) { /* never break the game */ }
+    }
+  }
+
+  function renderLeaderboard(data) {
+    if (!leaderboardCard || !data || data.available !== true) return;
+    leaderboardCard.classList.remove("hidden");
+    leaderboardList.replaceChildren();
+    const entries = Array.isArray(data.entries) ? data.entries.slice(0, 10) : [];
+    entries.forEach((entry, index) => {
+      const row = document.createElement("li");
+      row.className = "leaderboard-row" + (entry.isPlayer ? " is-player" : "");
+      const rank = document.createElement("span");
+      rank.className = "leaderboard-rank";
+      rank.textContent = "#" + (entry.rank || index + 1);
+      const name = document.createElement("span");
+      name.className = "leaderboard-name";
+      name.textContent = entry.name || "Player";
+      const score = document.createElement("span");
+      score.className = "leaderboard-score";
+      score.textContent = String(entry.score || 0);
+      row.append(rank, name, score);
+      leaderboardList.appendChild(row);
+    });
+    if (data.playerName && playerGreetingEl) {
+      playerGreetingEl.textContent = "Welcome, " + data.playerName;
+      playerGreetingEl.classList.remove("hidden");
+    }
+    if (data.playerRank && data.playerRank > 10) {
+      leaderboardYou.textContent = "You · #" + data.playerRank + " · " + (data.playerName || "Player") + " · " + (data.playerScore || 0);
+      leaderboardYou.classList.remove("hidden");
+    } else {
+      leaderboardYou.classList.add("hidden");
+    }
+    leaderboardStatus.textContent = entries.length ? "All-time scores" : "Be the first to score!";
+  }
+
+  async function refreshLeaderboard(syncLocalScore) {
+    const bridge = window.FallingFuryNative;
+    if (!bridge || !bridge.isNative || typeof bridge.getLeaderboard !== "function") return;
+    leaderboardCard.classList.remove("hidden");
+    leaderboardStatus.textContent = "Loading scores…";
+    try {
+      const data = await bridge.getLeaderboard();
+      if (data && data.available) {
+        renderLeaderboard(data);
+        if (syncLocalScore !== false && state && state.highScore > 0 && typeof bridge.submitHighScore === "function") {
+          const submitted = await bridge.submitHighScore(state.highScore);
+          if (submitted) renderLeaderboard(await bridge.getLeaderboard());
+        }
+      } else {
+        leaderboardStatus.textContent = "Sign in to Game Center to see global scores.";
+      }
+    } catch (_) {
+      leaderboardStatus.textContent = "Leaderboard unavailable. You can still play offline.";
     }
   }
 
@@ -648,6 +707,12 @@
       sfxGameOver();
       haptic(isNewHigh ? "success" : "error");
       updateShareButton(isNewHigh);
+      const nativeBridge = window.FallingFuryNative;
+      if (isNewHigh && nativeBridge && nativeBridge.isNative && typeof nativeBridge.submitHighScore === "function") {
+        nativeBridge.submitHighScore(state.highScore).then((submitted) => {
+          if (submitted) refreshLeaderboard(false);
+        });
+      }
     }
 
     renderHud();
@@ -1069,6 +1134,7 @@
      Init
      ════════════════════════════════════════════════ */
   highScoreEl.textContent = String(state.highScore);
+  refreshLeaderboard();
   setupCanvas();
   window.addEventListener("resize", setupCanvas);
   window.addEventListener("orientationchange", setupCanvas);

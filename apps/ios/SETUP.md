@@ -15,7 +15,13 @@ which uses **Swift Package Manager** (there is **no CocoaPods Podfile and no
 | Orientation | Portrait only |
 | Status bar | Hidden (`UIStatusBarHidden`, `UIViewControllerBasedStatusBarAppearance = false`, plus `StatusBar.hide()` from the bridge) |
 | Encryption | `ITSAppUsesNonExemptEncryption = false` (no export-compliance prompt) |
-| Plugins | `@capacitor/haptics`, `@capacitor/share`, `@capacitor/status-bar` |
+| Privacy manifest | `App/PrivacyInfo.xcprivacy` (no tracking; declares Game Center leaderboard content and player ID for app functionality) |
+| Plugins | `@capacitor/haptics`, `@capacitor/share`, `@capacitor/status-bar`, native GameKit leaderboard plugin |
+
+> **Status (2026-10-17):** the Release configuration builds successfully with Xcode 27.1,
+> the final 1024 × 1024 icon is installed, the app-level privacy manifest is bundled, and
+> the five 6.9" App Store screenshots are in `assets/appstore/screenshots/`. Remaining work
+> is signing (Team), App Store Connect metadata, TestFlight/device verification, and upload.
 
 ---
 
@@ -50,9 +56,9 @@ In Xcode: select the **App** target → **Signing & Capabilities** → check
 *Automatically manage signing* → choose your **Team**. Bundle identifier is already
 `com.tamimorif.fallingfury` (change it here if you use a different App Store record).
 
-### d. App icon (required before submission)
+### d. App icon (already installed — verify only)
 
-Overwrite this exact file:
+The production icon is already installed at:
 
 ```
 apps/ios/ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png
@@ -60,9 +66,8 @@ apps/ios/ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png
 
 `Assets.xcassets/AppIcon.appiconset/Contents.json` declares a single icon entry
 (idiom `universal`, platform `ios`, size `1024x1024`) whose filename is
-**`AppIcon-512@2x.png`** — keep that filename and just replace the pixels.
-(The file currently in the project is Capacitor's default blue icon; the final art is
-expected at `assets/appstore/icon-1024.png`, which was still empty when this was written.)
+**`AppIcon-512@2x.png`**. Its bytes match `assets/appstore/icon-1024.png`. Re-copy
+only if the artwork changes:
 
 ```bash
 # from the repo root; icon must be 1024x1024 PNG with NO alpha channel
@@ -81,8 +86,8 @@ sips -s format png --deleteColorManagementProperties -s hasAlpha no \
    assets/appstore/icon-1024.png --out /tmp/icon-1024-flat.png
 ```
 
-Optional: the launch screen image is
-`ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732(-1|-2).png` (2732x2732).
+The launch screen images in `ios/App/App/Assets.xcassets/Splash.imageset/` are also the
+final 2732 × 2732 artwork (opaque PNGs).
 
 ### e. Confirm device + orientation
 
